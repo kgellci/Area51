@@ -8,6 +8,13 @@ Provide a fun learning environment which is easy to setup!
 
 # Building Project
 
+## Requirements
+
+Xcode 10.1
+Swift 4.2
+
+## Setup
+
 Clone the repo and run the generate command
 ```console
 git clone git@github.com:kgellci/Area51.git
