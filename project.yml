@@ -1,0 +1,33 @@
+configFiles:
+  Debug: Configs/Debug.xcconfig
+  Release: Configs/Release.xcconfig
+name: Area51
+options:
+  bundleIdPrefix: com.gellci
+targets:
+  Area51:
+    type: application
+    platform: iOS
+    deploymentTarget: "12.0"
+    sources: 
+      - Area51/
+    settings:
+      INFOPLIST_FILE: Area51/Info.plist
+    prebuildScripts:
+      - name: swiftlint
+        script: ./tmp/SwiftLint
+    configFiles:
+      Debug: Configs/area51-debug.xcconfig
+      Release: Configs/area51-release.xcconfig
+    dependencies:
+      - target: CoreAPI
+  CoreAPI:
+    type: library.static
+    platform: iOS
+    sources:
+      - CoreAPI/
+    settings:
+      INFOPLIST_FILE: CoreAPI/Info.plist
+    configFiles:
+      Debug: Configs/CoreAPI.xcconfig
+      Release: Configs/CoreAPI.xcconfig
