@@ -8,7 +8,7 @@ Provide a fun learning environment which is easy to setup!
 
 # Building Project
 
-Clone the repo and rung the generate command
+Clone the repo and run the generate command
 ```console
 git clone git@github.com:kgellci/Area51.git
 cd Area51/
