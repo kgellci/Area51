@@ -26,6 +26,6 @@ install() {
 
 if [ ! -x ./tmp/XcodeGen ]; then
   install
-elif ! diff <(echo "$required_version") <(./tmp/XcodeGen -v) > /dev/null; then
+elif ! diff <(echo "Version: $required_version") <(./tmp/XcodeGen version) > /dev/null; then
   install
 fi
