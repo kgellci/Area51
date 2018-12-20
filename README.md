@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kgellci/Area51.svg?branch=master)](https://travis-ci.org/kgellci/Area51)
+
 # Area51
 Open source Reddit client for iOS built entirely in Swift
 ---
