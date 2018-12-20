@@ -1,3 +1,4 @@
+import SafariServices
 import UIKit
 
 final class FeedViewController: UIViewController {
@@ -6,9 +7,15 @@ final class FeedViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupTableView()
+        self.setupDataSource()
+    }
+
+    private func setupTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.setupDataSource()
+        self.tableView.register(UINib(nibName: "ListingTableViewCell", bundle: nil),
+                                forCellReuseIdentifier: "ListingTableViewCell")
     }
 
     private func setupDataSource() {
@@ -25,10 +32,20 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "ListingCell")
+        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "ListingTableViewCell")
+            as? ListingTableViewCell else {
+                return UITableViewCell()
+        }
+
         let listing = self.dataSource.listings[indexPath.row]
-        cell.textLabel?.text = listing.title
-        cell.textLabel?.numberOfLines = 0
+        cell.titleLabel?.text = listing.title
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let listing = self.dataSource.listings[indexPath.row]
+        let safariViewController = SFSafariViewController(url: listing.url)
+        self.present(safariViewController, animated: true, completion: nil)
     }
 }
