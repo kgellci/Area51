@@ -1,22 +1,25 @@
 [![Build Status](https://travis-ci.org/kgellci/Area51.svg?branch=master)](https://travis-ci.org/kgellci/Area51)
 
 # Area51
-Open source Reddit client for iOS built entirely in Swift
----
 
-# Goal
+Area51 is an open source Reddit client for iOS built entirely in Swift!
 
-Provide a fun learning environment which is easy to setup!
+## Goals
 
-# Building Project
+- Provide a beginner friendly development environment
+- Use the latest iOS development tools
+- Document everything! Helps beginners learn :)
+- Build an awesome open source Reddit client for iOS!
 
-## Requirements
+## How to get setup
 
-Xcode 10.1
+### Requirements
 
-Swift 4.2
+Make sure you have Xcode: 10.1 or higher.
 
-## Setup
+This project currently supports Swift 4.2+
+
+### Setup
 
 Clone the repo and run the generate command
 ```console
@@ -27,12 +30,12 @@ make generate
 
 After `generate` is finished doing its job, open Area51.xcodeproj, build and run.
 
-## Running on a device
-Create user.xcconfig file in Configs/ directory
+### Running on a device
+Edit the user.xcconfig file in Configs/ directory (don't worry, it is gitignored!)
 Set `DEVELOPMENT_TEAM` in the user.xcconfig file. Example:
 `DEVELOPMENT_TEAM = XXXXXXXXX`
 
-You will need to close the xcode project, run `make generate, open the project back up.
+You will need to close the xcode project, run `make generate`, open the project back up.
 You can find your team ID by logging into developer.apple.com
 
 # License
