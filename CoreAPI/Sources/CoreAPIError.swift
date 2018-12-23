@@ -1,5 +1,5 @@
 import Foundation
 
-enum CoreAPIError: Error {
+public enum CoreAPIError: Error {
     case random
 }

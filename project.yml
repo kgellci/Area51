@@ -4,6 +4,7 @@ configFiles:
 name: Area51
 options:
   bundleIdPrefix: com.gellci
+  transitivelyLinkDependencies: true
 targets:
   Area51:
     type: application
@@ -20,7 +21,6 @@ targets:
       Debug: Configs/area51-debug.xcconfig
       Release: Configs/area51-release.xcconfig
     dependencies:
-      - target: CoreAPI
       - target: ListingService
   CoreAPI:
     type: library.static

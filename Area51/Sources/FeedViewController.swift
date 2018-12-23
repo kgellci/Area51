@@ -46,7 +46,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
         }
 
-        self.dataSource.loadMoreIFNeeded(currentIndex: indexPath.row)
+        self.dataSource.loadMoreIfNeeded(currentIndex: indexPath.row)
         let listing = self.dataSource.listings[indexPath.row]
         cell.titleLabel?.text = listing.title
         return cell

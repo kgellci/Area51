@@ -37,7 +37,7 @@ public class ListingsDataSource {
         }
     }
 
-    public func loadMoreIFNeeded(currentIndex: Int) {
+    public func loadMoreIfNeeded(currentIndex: Int) {
         if currentIndex == self.listings.count - 1 {
             self.loadMore()
         }

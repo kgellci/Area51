@@ -1,3 +1,4 @@
+import CoreAPI
 import Foundation
 
 public class Listing {
