@@ -1,3 +1,4 @@
+import ListingService
 import SafariServices
 import UIKit
 
@@ -45,7 +46,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
         }
 
-        self.dataSource.loadMoreIFNeeded(currendIndexPath: indexPath)
+        self.dataSource.loadMoreIFNeeded(currentIndex: indexPath.row)
         let listing = self.dataSource.listings[indexPath.row]
         cell.titleLabel?.text = listing.title
         return cell

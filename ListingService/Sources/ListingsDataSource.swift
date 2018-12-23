@@ -1,24 +1,24 @@
 import CoreAPI
 import Foundation
 
-enum ListingFeed {
+public enum ListingFeed {
     case popular
 }
 
-class ListingsDataSource {
+public class ListingsDataSource {
     private let listingFeed: ListingFeed
-    private(set) var listings = [Listing]()
-    var updated: (() -> Void)?
+    public private(set) var listings = [Listing]()
+    public var updated: (() -> Void)?
 
     private var refreshTask: URLSessionTask?
     private var loadMoreTask: URLSessionTask?
 
-    init(listingFeed: ListingFeed) {
+    public init(listingFeed: ListingFeed) {
         self.listingFeed = listingFeed
         self.refresh()
     }
 
-    func refresh() {
+    public func refresh() {
         if self.refreshTask != nil {
             return
         }
@@ -37,8 +37,8 @@ class ListingsDataSource {
         }
     }
 
-    func loadMoreIFNeeded(currendIndexPath: IndexPath) {
-        if currendIndexPath.row == self.listings.count - 1 {
+    public func loadMoreIFNeeded(currentIndex: Int) {
+        if currentIndex == self.listings.count - 1 {
             self.loadMore()
         }
     }
