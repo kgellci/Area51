@@ -1,3 +1,4 @@
+import ListingService
 import SafariServices
 import UIKit
 
@@ -14,6 +15,8 @@ final class FeedViewController: UIViewController {
     private func setupTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.tableView.refreshControl = UIRefreshControl()
+        self.tableView.refreshControl?.addTarget(self, action: #selector(self.refreshData), for: .valueChanged)
         self.tableView.register(UINib(nibName: "ListingTableViewCell", bundle: nil),
                                 forCellReuseIdentifier: "ListingTableViewCell")
     }
@@ -21,8 +24,14 @@ final class FeedViewController: UIViewController {
     private func setupDataSource() {
         self.dataSource = ListingsDataSource(listingFeed: .popular)
         self.dataSource.updated = { [weak self] in
+            self?.tableView.refreshControl?.endRefreshing()
             self?.tableView.reloadData()
         }
+    }
+
+    @objc
+    private func refreshData() {
+        self.dataSource.refresh()
     }
 }
 
@@ -37,6 +46,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
         }
 
+        self.dataSource.loadMoreIfNeeded(currentIndex: indexPath.row)
         let listing = self.dataSource.listings[indexPath.row]
         cell.titleLabel?.text = listing.title
         return cell

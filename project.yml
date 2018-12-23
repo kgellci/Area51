@@ -4,6 +4,7 @@ configFiles:
 name: Area51
 options:
   bundleIdPrefix: com.gellci
+  transitivelyLinkDependencies: true
 targets:
   Area51:
     type: application
@@ -20,14 +21,26 @@ targets:
       Debug: Configs/area51-debug.xcconfig
       Release: Configs/area51-release.xcconfig
     dependencies:
-      - target: CoreAPI
+      - target: ListingService
   CoreAPI:
     type: library.static
     platform: iOS
     sources:
       - CoreAPI/
     settings:
-      INFOPLIST_FILE: CoreAPI/Info.plist
+      INFOPLIST_FILE: ModuleInfo.plist
     configFiles:
       Debug: Configs/CoreAPI.xcconfig
       Release: Configs/CoreAPI.xcconfig
+  ListingService:
+    type: library.static
+    platform: iOS
+    sources:
+      - ListingService/
+    settings:
+      INFOPLIST_FILE: ModuleInfo.plist
+    configFiles:
+      Debug: Configs/ListingService.xcconfig
+      Release: Configs/ListingService.xcconfig
+    dependencies:
+      - target: CoreAPI

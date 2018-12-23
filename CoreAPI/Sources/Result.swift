@@ -4,11 +4,11 @@ public enum Result<Value> {
     case success(Value)
     case error(Error)
 
-    init(success value: Value) {
+    public init(success value: Value) {
         self = .success(value)
     }
 
-    init(error: Error) {
+    public init(error: Error) {
         self = .error(error)
     }
 
