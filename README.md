@@ -1,6 +1,7 @@
-[![Build Status](https://travis-ci.org/kgellci/Area51.svg?branch=master)](https://travis-ci.org/kgellci/Area51)
-
+![Area51 App Icon](docs/resources/A51Icon.png)
 # Area51
+
+[![Build Status](https://travis-ci.org/kgellci/Area51.svg?branch=master)](https://travis-ci.org/kgellci/Area51)
 
 Area51 is an open source Reddit client for iOS built entirely in Swift!
 
@@ -11,7 +12,7 @@ Area51 is an open source Reddit client for iOS built entirely in Swift!
 - Document everything! Helps beginners learn :)
 - Build an awesome open source Reddit client for iOS!
 
-## How to get setup
+## Getting Started
 
 ### Requirements
 
@@ -29,6 +30,16 @@ make generate
 ```
 
 After `generate` is finished doing its job, open Area51.xcodeproj, build and run.
+
+### Project Structure
+
+Area51 does not import any 3rd party libraries in app.
+
+[Xcodegen](https://github.com/yonaskolb/XcodeGen) is used for project definition and generation.
+
+[Swiftlint](https://github.com/realm/SwiftLint) is used to keep the code properly structured and readable.
+
+[Learn more about the project structure.](docs/project.md)
 
 ### Running on a device
 Edit the user.xcconfig file in Configs/ directory (don't worry, it is gitignored!)
