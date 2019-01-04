@@ -39,7 +39,7 @@ public class ListingsDataSource {
                 }
             }
         case .news:
-            self.refreshTask = CoreAPI.newListings { [weak self] result in
+            self.refreshTask = CoreAPI.newsListings { [weak self] result in
                 self?.refreshTask = nil
                 switch result {
                 case .success(let listings):
@@ -75,7 +75,7 @@ public class ListingsDataSource {
                 }
             }
         case .news:
-        self.loadMoreTask = CoreAPI.newListings(afterListing: self.listings.last) { [weak self] result in
+        self.loadMoreTask = CoreAPI.newsListings(afterListing: self.listings.last) { [weak self] result in
                 self?.loadMoreTask = nil
                 switch result {
                 case .success(let listings):

@@ -16,8 +16,8 @@ extension CoreAPI {
             }
         }
     }
-    static func newListings(afterListing: Listing? = nil,
-                            completion: @escaping (Result<[Listing]>) -> Void) -> URLSessionTask {
+    static func newsListings(afterListing: Listing? = nil,
+                             completion: @escaping (Result<[Listing]>) -> Void) -> URLSessionTask {
         var parameters = [String: String]()
         if let listing = afterListing {
             parameters["after"] = listing.fullServerID
