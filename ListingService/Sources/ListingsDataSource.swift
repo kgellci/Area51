@@ -1,21 +1,16 @@
 import CoreAPI
 import Foundation
 
-public enum ListingFeed {
-    case popular
-    case news
-}
-
 public class ListingsDataSource {
-    private let listingFeed: ListingFeed
+    private let subreddit: SubredditRoute
     public private(set) var listings = [Listing]()
     public var updated: (() -> Void)?
 
     private var refreshTask: URLSessionTask?
     private var loadMoreTask: URLSessionTask?
 
-    public init(listingFeed: ListingFeed) {
-        self.listingFeed = listingFeed
+    public init(listingFeed: SubredditRoute) {
+        self.subreddit = listingFeed
         self.refresh()
     }
 
@@ -26,28 +21,14 @@ public class ListingsDataSource {
 
         self.loadMoreTask?.cancel()
         self.loadMoreTask = nil
-        switch listingFeed {
-        case .popular:
-            self.refreshTask = CoreAPI.popularListings { [weak self] result in
-                self?.refreshTask = nil
-                switch result {
-                case .success(let listings):
-                    self?.listings = listings
-                    self?.updated?()
-                case .error:
-                    return
-                }
-            }
-        case .news:
-            self.refreshTask = CoreAPI.newsListings { [weak self] result in
-                self?.refreshTask = nil
-                switch result {
-                case .success(let listings):
-                    self?.listings = listings
-                    self?.updated?()
-                case .error:
-                    return
-                }
+        self.refreshTask = CoreAPI.listings(forSubreddit: self.subreddit) { [weak self] result in
+            self?.refreshTask = nil
+            switch result {
+            case .success(let listings):
+                self?.listings = listings
+                self?.updated?()
+            case .error:
+                return
             }
         }
     }
@@ -62,28 +43,16 @@ public class ListingsDataSource {
         if self.loadMoreTask != nil || self.refreshTask != nil {
             return
         }
-        switch listingFeed {
-        case .popular:
-        self.loadMoreTask = CoreAPI.popularListings(afterListing: self.listings.last) { [weak self] result in
-                self?.loadMoreTask = nil
-                switch result {
-                case .success(let listings):
-                    self?.listings.append(contentsOf: listings)
-                    self?.updated?()
-                case .error:
-                    return
-                }
-            }
-        case .news:
-        self.loadMoreTask = CoreAPI.newsListings(afterListing: self.listings.last) { [weak self] result in
-                self?.loadMoreTask = nil
-                switch result {
-                case .success(let listings):
-                    self?.listings.append(contentsOf: listings)
-                    self?.updated?()
-                case .error:
-                    return
-                }
+
+        self.loadMoreTask = CoreAPI.listings(forSubreddit: self.subreddit,
+                                             afterListing: self.listings.last) { [weak self] result in
+            self?.loadMoreTask = nil
+            switch result {
+            case .success(let listings):
+                self?.listings.append(contentsOf: listings)
+                self?.updated?()
+            case .error:
+                return
             }
         }
     }
