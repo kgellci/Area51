@@ -2,6 +2,7 @@ import Foundation
 
 public enum APIRoute: String {
     case popular = "/r/popular"
+    case news = "/r/news/"
 
     func resolving(baseURL: URL, parameters: [String: String]?) -> URL {
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)!
