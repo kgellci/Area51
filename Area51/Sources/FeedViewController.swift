@@ -4,12 +4,26 @@ import UIKit
 
 final class FeedViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    private var dataSource: ListingsDataSource!
+    private var dataSource: ListingsDataSource! {
+        didSet {
+            self.dataSource.updated = { [weak self] in
+                self?.tableView.refreshControl?.endRefreshing()
+                self?.tableView.reloadData()
+            }
+        }
+    }
+
+    class func instantiateFromStoryboard(withSubreddit subreddit: Subreddit) -> FeedViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let feedViewController: FeedViewController = storyboard.viewControllerFrom(identifier: "FeedViewController")
+        feedViewController.dataSource = ListingsDataSource(subreddit: subreddit)
+        feedViewController.title = subreddit.name
+        return feedViewController
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupTableView()
-        self.setupDataSource()
     }
 
     private func setupTableView() {
@@ -19,14 +33,6 @@ final class FeedViewController: UIViewController {
         self.tableView.refreshControl?.addTarget(self, action: #selector(self.refreshData), for: .valueChanged)
         self.tableView.register(UINib(nibName: "ListingTableViewCell", bundle: nil),
                                 forCellReuseIdentifier: "ListingTableViewCell")
-    }
-
-    private func setupDataSource() {
-        self.dataSource = ListingsDataSource(listingFeed: .popular)
-        self.dataSource.updated = { [weak self] in
-            self?.tableView.refreshControl?.endRefreshing()
-            self?.tableView.reloadData()
-        }
     }
 
     @objc
