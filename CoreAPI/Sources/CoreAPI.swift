@@ -1,7 +1,5 @@
 import Foundation
 
-public typealias JSON = [String: Any]
-
 public struct CoreAPI {
     private static let session = URLSession(configuration: .default)
     private static let baseURL = URL(string: "https://api.reddit.com")!
