@@ -2,16 +2,23 @@ import CoreAPI
 import Foundation
 
 public class ListingsDataSource {
-    private let subreddit: SubredditRoute
+    private let subreddit: Subreddit
     public private(set) var listings = [Listing]()
     public var updated: (() -> Void)?
 
     private var refreshTask: URLSessionTask?
     private var loadMoreTask: URLSessionTask?
 
-    public init(listingFeed: SubredditRoute) {
-        self.subreddit = listingFeed
+    public init(subreddit: Subreddit) {
+        self.subreddit = subreddit
         self.refresh()
+    }
+
+    deinit {
+        self.refreshTask?.cancel()
+        self.loadMoreTask?.cancel()
+        self.refreshTask = nil
+        self.loadMoreTask = nil
     }
 
     public func refresh() {

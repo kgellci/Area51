@@ -2,7 +2,7 @@ import CoreAPI
 import Foundation
 
 extension CoreAPI {
-    static func listings(forSubreddit subreddit: SubredditRoute, afterListing: Listing? = nil,
+    static func listings(forSubreddit subreddit: Subreddit, afterListing: Listing? = nil,
                          completion: @escaping (Result<[Listing]>) -> Void) -> URLSessionTask {
         var parameters = [String: String]()
         if let listing = afterListing {
