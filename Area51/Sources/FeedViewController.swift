@@ -33,6 +33,8 @@ final class FeedViewController: UIViewController {
         self.tableView.refreshControl?.addTarget(self, action: #selector(self.refreshData), for: .valueChanged)
         self.tableView.register(UINib(nibName: "ListingTableViewCell", bundle: nil),
                                 forCellReuseIdentifier: "ListingTableViewCell")
+        self.tableView.register(UINib(nibName: "ListingThumbnailTableViewCell", bundle: nil),
+                                forCellReuseIdentifier: "ListingThumbnailTableViewCell")
     }
 
     @objc
@@ -47,14 +49,17 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "ListingTableViewCell")
-            as? ListingTableViewCell else {
-                return UITableViewCell()
-        }
-
         self.dataSource.loadMoreIfNeeded(currentIndex: indexPath.row)
         let listing = self.dataSource.listings[indexPath.row]
-        cell.titleLabel?.text = listing.title
+
+        let cell: UITableViewCell
+        if listing.thumbnailURL == nil {
+            cell = tableView.reusableCell(forIdentifier: "ListingTableViewCell")
+        } else {
+            cell = tableView.reusableCell(forIdentifier: "ListingThumbnailTableViewCell")
+        }
+
+        (cell as? ListingDisplayable)?.display(listing: listing)
         return cell
     }
 
