@@ -21,6 +21,7 @@ targets:
       Debug: Configs/area51-debug.xcconfig
       Release: Configs/area51-release.xcconfig
     dependencies:
+      - target: ImageService
       - target: ListingService
   CoreAPI:
     type: library.static
@@ -32,6 +33,16 @@ targets:
     configFiles:
       Debug: Configs/CoreAPI.xcconfig
       Release: Configs/CoreAPI.xcconfig
+  ImageService:
+    type: library.static
+    platform: iOS
+    sources:
+      - ImageService/
+    settings:
+      INFOPLIST_FILE: ModuleInfo.plist
+    configFiles:
+      Debug: Configs/ImageService.xcconfig
+      Release: Configs/ImageService.xcconfig
   ListingService:
     type: library.static
     platform: iOS
