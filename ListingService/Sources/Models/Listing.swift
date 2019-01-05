@@ -1,21 +1,25 @@
-import CoreAPI
 import Foundation
 
-public class Listing {
+public class Listing: Decodable {
     public let title: String
     public let url: URL
     let fullServerID: String
 
-    init?(json: JSON) {
-        guard let innerData = json["data"] as? JSON,
-            let title = innerData["title"] as? String,
-            let urlString = innerData["url"] as? String,
-            let fullServerID = innerData["name"] as? String else {
-            return nil
-        }
+    enum CodingKeys: String, CodingKey {
+        case innerData = "data"
+    }
 
-        self.title = title
-        self.fullServerID = fullServerID
-        self.url = URL(string: urlString)!
+    enum InnerDataKeys: String, CodingKey {
+        case title
+        case url
+        case fullServerID = "name"
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let innerData = try values.nestedContainer(keyedBy: InnerDataKeys.self, forKey: .innerData)
+        title = try innerData.decode(String.self, forKey: .title)
+        url = try innerData.decode(URL.self, forKey: .url)
+        fullServerID = try innerData.decode(String.self, forKey: .fullServerID)
     }
 }
