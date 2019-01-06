@@ -7,6 +7,8 @@ Area51 is an open source Reddit client for iOS built entirely in Swift!
 
 [**Get the public beta on TestFlight**](https://testflight.apple.com/join/V6vpApGX)
 
+[**Join the public Slack channel to collaborate!**](https://join.slack.com/t/area51os/shared_invite/enQtNTE3NDM1NTc4NzcyLWZkMjkxMjA0ODA0ZTFjMTc4MzBmMjg3NDc4YjVmZjg0ZjI2MTkxOWE4YjAzNmU2ZTllMTBkZmUyZjU0OGM5OWI)
+
 ## Goals
 
 - Provide a beginner friendly development environment
