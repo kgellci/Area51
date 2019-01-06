@@ -1,2 +1,2 @@
-PRODUCT_BUNDLE_IDENTIFIER = com.gellci.area51os.ImageService
+PRODUCT_BUNDLE_IDENTIFIER = $(inherited).ImageService
 SKIP_INSTALL = YES
