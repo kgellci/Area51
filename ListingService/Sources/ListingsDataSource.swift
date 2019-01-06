@@ -1,21 +1,24 @@
 import CoreAPI
 import Foundation
 
-public enum ListingFeed {
-    case popular
-}
-
 public class ListingsDataSource {
-    private let listingFeed: ListingFeed
+    private let subreddit: Subreddit
     public private(set) var listings = [Listing]()
     public var updated: (() -> Void)?
 
     private var refreshTask: URLSessionTask?
     private var loadMoreTask: URLSessionTask?
 
-    public init(listingFeed: ListingFeed) {
-        self.listingFeed = listingFeed
+    public init(subreddit: Subreddit) {
+        self.subreddit = subreddit
         self.refresh()
+    }
+
+    deinit {
+        self.refreshTask?.cancel()
+        self.loadMoreTask?.cancel()
+        self.refreshTask = nil
+        self.loadMoreTask = nil
     }
 
     public func refresh() {
@@ -25,7 +28,7 @@ public class ListingsDataSource {
 
         self.loadMoreTask?.cancel()
         self.loadMoreTask = nil
-        self.refreshTask = CoreAPI.popularListings { [weak self] result in
+        self.refreshTask = CoreAPI.listings(forSubreddit: self.subreddit) { [weak self] result in
             self?.refreshTask = nil
             switch result {
             case .success(let listings):
@@ -48,7 +51,8 @@ public class ListingsDataSource {
             return
         }
 
-        self.loadMoreTask = CoreAPI.popularListings(afterListing: self.listings.last) { [weak self] result in
+        self.loadMoreTask = CoreAPI.listings(forSubreddit: self.subreddit,
+                                             afterListing: self.listings.last) { [weak self] result in
             self?.loadMoreTask = nil
             switch result {
             case .success(let listings):
@@ -57,7 +61,6 @@ public class ListingsDataSource {
             case .error:
                 return
             }
-
         }
     }
 }
