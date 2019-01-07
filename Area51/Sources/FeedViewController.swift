@@ -5,14 +5,8 @@ import UIKit
 final class FeedViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-
-    private var dataSource: ListingsDataSource! {
-        didSet {
-            self.dataSource.updated = { [weak self] in
-                self?.endRefreshingOnTableView()
-            }
-        }
-    }
+    private var tableViewDatasource: TableViewDataSource<Listing>?
+    private var dataSource: ListingsDataSource!
 
     class func instantiateFromStoryboard(withSubreddit subreddit: Subreddit) -> FeedViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -27,58 +21,47 @@ final class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        refreshData()
     }
 
     private func setupTableView() {
         tableView.delegate = self
-        tableView.dataSource = self
         setupTableViewRefreshControl()
         registerTableViewCells()
     }
 
-    private func setupTableViewRefreshControl () {
+    private func setupTableViewRefreshControl() {
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
 
     private func registerTableViewCells () {
-        tableView.register(UINib(nibName: "ListingTableViewCell", bundle: nil),
-                           forCellReuseIdentifier: "ListingTableViewCell")
+        tableView.register(ListingThumbnailTableViewCell.nib(),
+                           forCellReuseIdentifier: ListingThumbnailTableViewCell.reuseIdentifier())
+    }
 
-        tableView.register(UINib(nibName: "ListingThumbnailTableViewCell", bundle: nil),
-                           forCellReuseIdentifier: "ListingThumbnailTableViewCell")
+    private func loadTableViewDataSource(with listings: [Listing]) {
+        tableViewDatasource = TableViewDataSource.make(for: listings)
+        tableView.dataSource = tableViewDatasource
+        tableView.reloadData()
     }
 
     @objc
     private func refreshData() {
-        dataSource.refresh()
+        dataSource.refresh { [weak self] (listings) in
+            if let listings = listings {
+                self?.loadTableViewDataSource(with: listings)
+            }
+        }
     }
 
-    private func endRefreshingOnTableView () {
+    private func endRefreshingOnTableView() {
         tableView.refreshControl?.endRefreshing()
         tableView.reloadData()
     }
 }
 
-extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dataSource.listings.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        self.dataSource.loadMoreIfNeeded(currentIndex: indexPath.row)
-        let listing = self.dataSource.listings[indexPath.row]
-
-        let cell: UITableViewCell
-        if listing.thumbnailURL == nil {
-            cell = tableView.reusableCell(forIdentifier: "ListingTableViewCell")
-        } else {
-            cell = tableView.reusableCell(forIdentifier: "ListingThumbnailTableViewCell")
-        }
-
-        (cell as? ListingDisplayable)?.display(listing: listing)
-        return cell
-    }
+extension FeedViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

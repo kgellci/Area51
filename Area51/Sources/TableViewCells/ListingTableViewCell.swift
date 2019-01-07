@@ -10,3 +10,9 @@ extension ListingTableViewCell: ListingDisplayable {
         self.titleLabel.text = listing.title
     }
 }
+
+extension ListingTableViewCell {
+    static func reuseIdentifier() -> String {
+        return "ListingTableViewCell"
+    }
+}

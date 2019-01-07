@@ -47,9 +47,10 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="thumbnailImageView" destination="4EH-Og-sWo" id="VEz-jQ-8V7"/>
+                <outlet property="thumbnailImageViewWidthConstraint" destination="iVR-dK-cMa" id="Yfj-hl-fmN"/>
                 <outlet property="titleLabel" destination="TXw-wL-AMz" id="88i-Ks-Kg7"/>
             </connections>
-            <point key="canvasLocation" x="137.59999999999999" y="162.81859070464768"/>
+            <point key="canvasLocation" x="137.59999999999999" y="161.91904047976013"/>
         </tableViewCell>
     </objects>
 </document>
