@@ -46,9 +46,15 @@ Area51 does not import any 3rd party libraries in app.
 [Learn more about the project structure.](docs/project.md)
 
 ### Running on a device
+Make sure you run `make generate` command from above to generate the appropriate config files.
+
 Edit the user.xcconfig file in Configs/ directory (don't worry, it is gitignored!)
 Set `DEVELOPMENT_TEAM` in the user.xcconfig file. Example:
 `DEVELOPMENT_TEAM = XXXXXXXXX`
+
+Edit the bundleIdentifier.xcconfig file in Configs/ directory (also gitignored!)
+Set `PRODUCT_BUNDLE_IDENTIFIER` in bundleIdentifier.xcconfig to something unique, Example:
+`PRODUCT_BUNDLE_IDENTIFIER = whatever.i.want`
 
 You will need to close the xcode project, run `make generate`, open the project back up.
 You can find your team ID by logging into developer.apple.com

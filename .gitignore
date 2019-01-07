@@ -32,5 +32,6 @@ playground.xcworkspace
 .build/
 *.xcodeproj
 Configs/user.xcconfig
+Configs/bundleIdentifier.xcconfig
 tmp/
 
