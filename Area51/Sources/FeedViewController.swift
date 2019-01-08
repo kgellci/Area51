@@ -4,7 +4,7 @@ import UIKit
 
 final class FeedViewController: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     private var tableViewDatasource: TableViewDataSource<Listing>?
     private var dataSource: ListingsDataSource!
 
@@ -23,6 +23,9 @@ final class FeedViewController: UIViewController {
         setupTableView()
         refreshData()
     }
+}
+
+extension FeedViewController {
 
     private func setupTableView() {
         tableView.delegate = self
@@ -36,8 +39,8 @@ final class FeedViewController: UIViewController {
     }
 
     private func registerTableViewCells () {
-        tableView.register(ListingThumbnailTableViewCell.nib(),
-                           forCellReuseIdentifier: ListingThumbnailTableViewCell.reuseIdentifier())
+        tableView.register(ListingTableViewCell.nib(),
+                           forCellReuseIdentifier: ListingTableViewCell.reuseIdentifier())
     }
 
     private func loadTableViewDataSource(with listings: [Listing]) {
@@ -58,6 +61,20 @@ final class FeedViewController: UIViewController {
     private func endRefreshingOnTableView() {
         tableView.refreshControl?.endRefreshing()
         tableView.reloadData()
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        let currentOffset = scrollView.contentOffset.y
+        let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
+
+        if maxOffset - currentOffset <= 100 {
+            dataSource.loadMoreIfNeeded { [weak self] (listings) in
+                if let listings = listings {
+                    self?.loadTableViewDataSource(with: listings)
+                }
+            }
+        }
     }
 }
 

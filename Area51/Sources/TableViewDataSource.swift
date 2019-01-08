@@ -59,10 +59,10 @@ extension TableViewDataSource where Model == Listing {
     static func make(for listings: [Listing]?) -> TableViewDataSource {
 
         return TableViewDataSource(models: listings,
-                                   reuseIdentifier: ListingThumbnailTableViewCell.reuseIdentifier(),
+                                   reuseIdentifier: ListingTableViewCell.reuseIdentifier(),
                                    cellConfigurator: { (listing, cell) in
 
-                                    let listingCell = cell as? ListingThumbnailTableViewCell
+                                    let listingCell = cell as? ListingTableViewCell
                                     listingCell?.configure(listing)
         })
     }

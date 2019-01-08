@@ -41,10 +41,8 @@ public class ListingsDataSource {
         }
     }
 
-    public func loadMoreIfNeeded(currentIndex: Int, updatedHandler handler: @escaping UpdatedHandler) {
-        if currentIndex == self.listings.count - 1 {
-            loadMore(updatedHandler: handler)
-        }
+    public func loadMoreIfNeeded(updatedHandler handler: @escaping UpdatedHandler) {
+        loadMore(updatedHandler: handler)
     }
 
     private func loadMore(updatedHandler handler: @escaping UpdatedHandler) {
@@ -54,14 +52,15 @@ public class ListingsDataSource {
 
         self.loadMoreTask = CoreAPI.listings(forSubreddit: self.subreddit,
                                              afterListing: self.listings.last) { [weak self] result in
-            self?.loadMoreTask = nil
-            switch result {
-            case .success(let listings):
-                self?.listings.append(contentsOf: listings)
-                handler(self?.listings)
-            case .error:
-                return
-            }
+
+                                                self?.loadMoreTask = nil
+                                                switch result {
+                                                case .success(let listings):
+                                                    self?.listings.append(contentsOf: listings)
+                                                    handler(self?.listings)
+                                                case .error:
+                                                    return
+                                                }
         }
     }
 }
