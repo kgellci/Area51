@@ -14,7 +14,7 @@ final class FeedViewController: UIViewController {
     }
 
     class func instantiateFromStoryboard(withSubreddit subreddit: Subreddit) -> FeedViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard.feed
         let feedViewController: FeedViewController = storyboard.viewControllerFrom(identifier: "FeedViewController")
         feedViewController.dataSource = ListingsDataSource(subreddit: subreddit)
         feedViewController.title = subreddit.name
