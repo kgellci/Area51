@@ -25,12 +25,8 @@ public struct ImageFetcher {
 
         self.currentDownloads[url] = [completion]
         self.session.dataTask(with: url) { (data, _, _) in
-            guard let data = data else {
-                return completion(nil, url)
-            }
-
-            let image = UIImage(data: data)
             DispatchQueue.main.async {
+                let image: UIImage? = data.flatMap(UIImage.init)
                 self.currentDownloads[url]?.forEach { $0(image, url) }
                 self.currentDownloads.removeValue(forKey: url)
             }

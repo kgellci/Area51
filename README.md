@@ -7,6 +7,8 @@ Area51 is an open source Reddit client for iOS built entirely in Swift!
 
 [**Get the public beta on TestFlight**](https://testflight.apple.com/join/V6vpApGX)
 
+[**Join the public Slack channel to collaborate!**](https://join.slack.com/t/area51os/shared_invite/enQtNTE3NDM1NTc4NzcyLWZkMjkxMjA0ODA0ZTFjMTc4MzBmMjg3NDc4YjVmZjg0ZjI2MTkxOWE4YjAzNmU2ZTllMTBkZmUyZjU0OGM5OWI)
+
 ## Goals
 
 - Provide a beginner friendly development environment
@@ -44,9 +46,15 @@ Area51 does not import any 3rd party libraries in app.
 [Learn more about the project structure.](docs/project.md)
 
 ### Running on a device
+Make sure you run `make generate` command from above to generate the appropriate config files.
+
 Edit the user.xcconfig file in Configs/ directory (don't worry, it is gitignored!)
 Set `DEVELOPMENT_TEAM` in the user.xcconfig file. Example:
 `DEVELOPMENT_TEAM = XXXXXXXXX`
+
+Edit the bundleIdentifier.xcconfig file in Configs/ directory (also gitignored!)
+Set `PRODUCT_BUNDLE_IDENTIFIER` in bundleIdentifier.xcconfig to something unique, Example:
+`PRODUCT_BUNDLE_IDENTIFIER = whatever.i.want`
 
 You will need to close the xcode project, run `make generate`, open the project back up.
 You can find your team ID by logging into developer.apple.com
