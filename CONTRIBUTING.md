@@ -27,6 +27,6 @@ The possibilities are not limited, you can create new color palettes, fonts, ico
 
 ### Submitting your PR
 
-Please first fork the project and then create a branch off the latest master to make your changes. You can follow the flow / documentation listed [here](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project).
+Please first fork the project and then create a branch off the latest master to make your changes. You can follow the flow / documentation listed [here](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project). After the changes are made, be sure to update [CHANGELOG.md](https://github.com/kgellci/Area51/CHANGELOG.md) accordingly.
 
 When opening your PR, give a summary of what has changed. Also add any github issues links - `Implements #100`.
