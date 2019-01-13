@@ -1,4 +1,5 @@
-![Area51 App Icon](docs/resources/A51Icon.png)
+<img src="/docs/resources/A51Icon.png" width="144" alt="Area51 App Icon">
+
 # Area51
 
 [![Build Status](https://travis-ci.org/kgellci/Area51.svg?branch=master)](https://travis-ci.org/kgellci/Area51)
