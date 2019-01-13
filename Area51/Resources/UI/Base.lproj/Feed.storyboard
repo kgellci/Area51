@@ -75,10 +75,11 @@
             </objects>
             <point key="canvasLocation" x="285.60000000000002" y="-694.00299850074964"/>
         </scene>
-        <!--Split View Controller-->
+        <!--Item-->
         <scene sceneID="hGz-rd-91y">
             <objects>
                 <splitViewController id="Xq7-FN-6GF" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="dox-Hb-U35"/>
                     <connections>
                         <segue destination="5CI-cl-RRQ" kind="relationship" relationship="masterViewController" id="OFm-ME-4yd"/>
                     </connections>
