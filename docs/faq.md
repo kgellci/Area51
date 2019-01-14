@@ -8,7 +8,7 @@ To save time, the setup and build process is usually automated. This project use
 
 1. Rule: `generate`
     - Creates a `user.xconfig` file that allows different developers to enter their individual configurations (it's gitignored)
-    - Runs two scripts (`ensure-xcodegen.sh`, `ensure-swiftlint.sh`) that installs a specified version of Xcodegen and Swiftlint respectively.
+    - Runs two scripts (`ensure-xcodegen.sh`, `ensure-swiftlint.sh`) that installs a specified version of Xcodegen and Swiftlint respectively. The scripts download the appropriate version, if they are not available
     - Runs Xcodegen
 
 2. Rule: `lint`
