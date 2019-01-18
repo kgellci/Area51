@@ -61,7 +61,7 @@ You will need to close the Xcode project, run `make generate` and open the proje
 You can find your team ID by logging into [developer.apple.com](developer.apple.com).
 
 # FAQ
-If you have more questions, checkout out the [FAQ](docs/faq.md). If your question is not answered, open a new issue with the "Question" tag.
+If you have more questions, check out the [FAQ](docs/faq.md). If your question is not answered, open a new issue with the "Question" tag.
 
 # License
 Area51 is licensed under the GNU General Public License v3.0. See [LICENSE](LICENSE) for more info.
