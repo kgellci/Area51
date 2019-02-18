@@ -8,6 +8,7 @@ public class Listing: Decodable {
     public let title: String
     public let url: URL
     public let thumbnailURL: URL?
+    public var displayName: String?
     let fullServerID: String
 
     enum CodingKeys: String, CodingKey {
@@ -19,6 +20,7 @@ public class Listing: Decodable {
         case url
         case fullServerID = "name"
         case thumbnailURL = "thumbnail"
+        case displayName = "display_name"
     }
 
     public required init(from decoder: Decoder) throws {
@@ -26,6 +28,11 @@ public class Listing: Decodable {
         let innerData = try values.nestedContainer(keyedBy: InnerDataKeys.self, forKey: .innerData)
         self.title = try innerData.decode(String.self, forKey: .title)
         self.fullServerID = try innerData.decode(String.self, forKey: .fullServerID)
+        // Deal with error thrown when loading subreddit content the key display_name is not present and continue
+        do {
+           self.displayName = try innerData.decode(String.self, forKey: .displayName)
+        } catch {
+        }
 
         let urlString = try innerData.decode(String.self, forKey: .url)
         // Seems Reddit can return a url with invalid characters which blows up parsing
