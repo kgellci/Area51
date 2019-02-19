@@ -28,11 +28,7 @@ public class Listing: Decodable {
         let innerData = try values.nestedContainer(keyedBy: InnerDataKeys.self, forKey: .innerData)
         self.title = try innerData.decode(String.self, forKey: .title)
         self.fullServerID = try innerData.decode(String.self, forKey: .fullServerID)
-        // Deal with error thrown when loading subreddit content the key display_name is not present and continue
-        do {
-           self.displayName = try innerData.decode(String.self, forKey: .displayName)
-        } catch {
-        }
+        self.displayName = try? innerData.decode(String.self, forKey: .displayName)
 
         let urlString = try innerData.decode(String.self, forKey: .url)
         // Seems Reddit can return a url with invalid characters which blows up parsing

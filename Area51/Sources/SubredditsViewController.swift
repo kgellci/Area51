@@ -7,7 +7,6 @@ class SubredditsViewController: UIViewController {
     private var dataSource: ListingsDataSource! {
         didSet {
             self.dataSource.updated = { [weak self] in
-                self?.tableView.refreshControl?.endRefreshing()
                 self?.tableView.reloadData()
             }
         }
@@ -25,8 +24,6 @@ class SubredditsViewController: UIViewController {
     private func setupTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.refreshControl = UIRefreshControl()
-        self.tableView.refreshControl?.addTarget(self, action: #selector(self.refreshData), for: .valueChanged)
     }
 
     private func showSubreddit(_ subreddit: Subreddit) {
@@ -34,23 +31,14 @@ class SubredditsViewController: UIViewController {
         self.splitViewController?.showDetailViewController(feedViewController.embeddedInNavigationController(),
                                                            sender: self)
     }
-    @objc
-    private func refreshData() {
-        self.dataSource.refresh()
-    }
 }
 
 extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return SubredditSections.allSections.count
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "Reddit Feeds"
-        default:
-            return "Default Subreddits"
-        }
+        return SubredditSections(rawValue: section)?.title
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
@@ -68,7 +56,6 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.text = self.subreddits[indexPath.row].name
         } else {
             let listing = self.dataSource.listings[indexPath.row]
-            print(listing.title)
             cell.textLabel?.text = listing.url.absoluteString
         }
         return cell
@@ -80,7 +67,6 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
             self.showSubreddit(self.subreddits[indexPath.row])
         } else {
             let listing = self.dataSource.listings[indexPath.row]
-            print(listing.title)
             self.showSubreddit(Subreddit.other(listing.displayName!))
         }
     }
