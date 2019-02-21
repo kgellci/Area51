@@ -34,11 +34,11 @@ class SubredditsViewController: UIViewController {
 }
 
 extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
-    
+
     enum SubredditSections: Int {
         case redditFeeds = 0
         case defaultFeeds = 1
-        
+
         public var title: String {
             switch self {
             case .redditFeeds:
@@ -48,9 +48,10 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
         public static var allSections: [SubredditSections] {
-            return [.redditFeeds , .defaultFeeds]
+            return [.redditFeeds, .defaultFeeds]
         }
     }
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return SubredditSections.allSections.count
     }
