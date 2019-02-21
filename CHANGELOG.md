@@ -11,6 +11,8 @@
 * [CHANGELOG added by NickSet](https://github.com/kgellci/Area51/pull/32)
 * [Add tabbar icons](https://github.com/kgellci/Area51/pull/38)
 * [Add settings view controller](https://github.com/kgellci/Area51/pull/37)
+* [Populate with default subreddits](https://github.com/kgellci/Area51/pull/46)
+
 
 #### Bug Fixes
 
