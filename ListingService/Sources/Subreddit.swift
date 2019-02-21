@@ -4,6 +4,7 @@ import Foundation
 public enum Subreddit: APIRoute {
     case popular
     case news
+    case defaultSubreddits
     case other(String)
 
     public var path: String {
@@ -12,6 +13,8 @@ public enum Subreddit: APIRoute {
             return "/r/popular"
         case .news:
             return "/r/news"
+        case .defaultSubreddits:
+            return "/subreddits/default"
         case .other(let name):
             return "/r/" + name
         }
@@ -23,6 +26,8 @@ public enum Subreddit: APIRoute {
             return "Popular"
         case .news:
             return "News"
+        case .defaultSubreddits:
+            return "Default"
         case .other(let name):
             return name
         }
