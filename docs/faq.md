@@ -31,5 +31,5 @@ The control flow is as follows:
 - Once the app starts (eg tapping on the icon), iOS calls the `AppDelegate.swift`.
 - In Area51 this tells the `NavigationRouter.swift` to load.
 - The NavigationRouter instantiates the tabs (at the time of writing the feedController and the settingsController) and sets them up in the tab bar at the bottom.
-- Bot controllers get added into an array of controllers and iOS presents the item in the first position in this array.
+- Both controllers get added into an array of controllers and iOS presents the item in the first position in this array.
 - In the case of Area51 the feedController itself already does some things (like opening a subreddit). You can checkout the code for that in the `FeedViewController.swift`
