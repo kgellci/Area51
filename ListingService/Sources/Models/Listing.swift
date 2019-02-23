@@ -19,7 +19,7 @@ public class Listing: Decodable {
     enum InnerDataKeys: String, CodingKey {
         case title
         case url
-        case selfText
+        case selfText = "selftext"
         case fullServerID = "name"
         case thumbnailURL = "thumbnail"
         case displayName = "display_name"
