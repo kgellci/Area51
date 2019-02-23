@@ -15,7 +15,7 @@ class ListingTableViewCell: UITableViewCell {
 extension ListingTableViewCell: ListingDisplayable {
     func display(_ listing: Listing) {
         configureTitleText(with: listing)
-        configureThumnailImage(with: listing)
+        configureThumbnailImageView(with: listing)
         configureBodyText(with: listing)
     }
 }
@@ -25,7 +25,7 @@ private extension ListingTableViewCell {
         titleLabel.text = listing.title.stripHtml
     }
 
-    func configureThumnailImage(with listing: Listing) {
+    func configureThumbnailImageView(with listing: Listing) {
         thumbnailImageView.isHidden = listing.thumbnailURL == nil
         thumbnailImageView.url = listing.thumbnailURL
     }
