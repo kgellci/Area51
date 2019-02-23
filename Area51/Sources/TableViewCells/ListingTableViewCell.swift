@@ -31,12 +31,12 @@ private extension ListingTableViewCell {
     }
 
     func configureBodyText(with listing: Listing) {
-        guard let selftext = listing.selftext  else {
+        guard let selfText = listing.selfText  else {
             bodyLabel.isHidden = true
             return
         }
 
-        bodyLabel.isHidden = selftext.isEmpty
-        bodyLabel.text = selftext.stripHtml
+        bodyLabel.isHidden = selfText.isEmpty
+        bodyLabel.text = selfText.stripHtml
     }
 }

@@ -7,7 +7,7 @@ public enum ListingParseError: Error {
 public class Listing: Decodable {
     public let title: String
     public let url: URL
-    public let selftext: String?
+    public let selfText: String?
     public let thumbnailURL: URL?
     public var displayName: String?
     let fullServerID: String
@@ -19,7 +19,7 @@ public class Listing: Decodable {
     enum InnerDataKeys: String, CodingKey {
         case title
         case url
-        case selftext
+        case selfText
         case fullServerID = "name"
         case thumbnailURL = "thumbnail"
         case displayName = "display_name"
@@ -32,7 +32,7 @@ public class Listing: Decodable {
         title = try innerData.decode(String.self, forKey: .title)
         fullServerID = try innerData.decode(String.self, forKey: .fullServerID)
         displayName = try? innerData.decode(String.self, forKey: .displayName)
-        selftext = try? innerData.decode(String.self, forKey: .selftext)
+        selfText = try? innerData.decode(String.self, forKey: .selfText)
 
         let urlString = try innerData.decode(String.self, forKey: .url)
         // Seems Reddit can return a url with invalid characters which blows up parsing
