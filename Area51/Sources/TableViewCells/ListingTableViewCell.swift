@@ -3,9 +3,9 @@ import ImageService
 import ListingService
 
 class ListingTableViewCell: UITableViewCell {
-    @IBOutlet private weak var titleLabel: UILabel!
-    @IBOutlet private weak var bodyLabel: UILabel!
-    @IBOutlet private weak var thumbnailImageView: NetworkImageView!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var bodyLabel: UILabel!
+    @IBOutlet private var thumbnailImageView: NetworkImageView!
 
     static var reuseIdentifier: String {
         return "ListingTableViewCell"
