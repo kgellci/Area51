@@ -51,15 +51,9 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         self.dataSource.loadMoreIfNeeded(currentIndex: indexPath.row)
         let listing = self.dataSource.listings[indexPath.row]
+        let cell: ListingTableViewCell = tableView.reusableCell(forIdentifier: ListingTableViewCell.reuseIdentifier)
 
-        let cell: UITableViewCell
-        if listing.thumbnailURL == nil {
-            cell = tableView.reusableCell(forIdentifier: "ListingTableViewCell")
-        } else {
-            cell = tableView.reusableCell(forIdentifier: "ListingThumbnailTableViewCell")
-        }
-
-        (cell as? ListingDisplayable)?.display(listing: listing)
+        cell.display(listing)
         return cell
     }
 

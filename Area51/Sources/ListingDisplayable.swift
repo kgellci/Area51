@@ -2,5 +2,5 @@ import Foundation
 import ListingService
 
 protocol ListingDisplayable {
-    func display(listing: Listing)
+    func display(_ listing: Listing)
 }
