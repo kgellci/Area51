@@ -7,8 +7,8 @@ public enum ListingParseError: Error {
 public class Listing: Decodable {
     public let title: String
     public let url: URL
-    public let selfText: String?
     public let thumbnailURL: URL?
+    public var selfText: String?
     public var displayName: String?
     let fullServerID: String
 
