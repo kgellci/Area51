@@ -59,33 +59,43 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
         return SubredditSections(rawValue: section)?.title
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return self.subreddits.count
-        default:
-            return self.dataSource.listings.count
+        if let tableViewSection = SubredditSections(rawValue: section) {
+            switch tableViewSection {
+            case .redditFeeds:
+                return self.subreddits.count
+            case .defaultFeeds:
+                return self.dataSource.listings.count
+            }
+        } else {
+            return 0
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         self.dataSource.loadMoreIfNeeded(currentIndex: indexPath.row)
         let cell = tableView.dequeueReusableCell(withIdentifier: "SubredditCell")!
-        if indexPath.section == 0 {
-            cell.textLabel?.text = self.subreddits[indexPath.row].name
-        } else {
-            let listing = self.dataSource.listings[indexPath.row]
-            cell.textLabel?.text = listing.url.absoluteString
+        if let tableViewSection = SubredditSections(rawValue: indexPath.section) {
+            switch tableViewSection {
+            case .redditFeeds:
+                cell.textLabel?.text = self.subreddits[indexPath.row].name
+            case .defaultFeeds:
+                let listing = self.dataSource.listings[indexPath.row]
+                cell.textLabel?.text = listing.url.absoluteString
+            }
         }
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.section == 0 {
-            self.showSubreddit(self.subreddits[indexPath.row])
-        } else {
-            let listing = self.dataSource.listings[indexPath.row]
-            self.showSubreddit(Subreddit.other(listing.displayName!))
+        if let tableViewSection = SubredditSections(rawValue: indexPath.section) {
+            switch tableViewSection {
+            case .redditFeeds:
+                self.showSubreddit(self.subreddits[indexPath.row])
+            case .defaultFeeds:
+                let listing = self.dataSource.listings[indexPath.row]
+                self.showSubreddit(Subreddit.other(listing.displayName!))
+            }
         }
     }
 }
