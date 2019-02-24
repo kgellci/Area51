@@ -7,6 +7,7 @@ public enum ListingParseError: Error {
 public class Listing: Decodable {
     public let title: String
     public let url: URL
+    public let selfText: String?
     public let thumbnailURL: URL?
     public var displayName: String?
     let fullServerID: String
@@ -18,6 +19,7 @@ public class Listing: Decodable {
     enum InnerDataKeys: String, CodingKey {
         case title
         case url
+        case selfText = "selftext"
         case fullServerID = "name"
         case thumbnailURL = "thumbnail"
         case displayName = "display_name"
@@ -26,15 +28,17 @@ public class Listing: Decodable {
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let innerData = try values.nestedContainer(keyedBy: InnerDataKeys.self, forKey: .innerData)
-        self.title = try innerData.decode(String.self, forKey: .title)
-        self.fullServerID = try innerData.decode(String.self, forKey: .fullServerID)
-        self.displayName = try? innerData.decode(String.self, forKey: .displayName)
+
+        title = try innerData.decode(String.self, forKey: .title)
+        fullServerID = try innerData.decode(String.self, forKey: .fullServerID)
+        displayName = try? innerData.decode(String.self, forKey: .displayName)
+        selfText = try? innerData.decode(String.self, forKey: .selfText)
 
         let urlString = try innerData.decode(String.self, forKey: .url)
         // Seems Reddit can return a url with invalid characters which blows up parsing
         guard let decodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),
             let url = URL(string: decodedURLString) else {
-            throw ListingParseError.invalidURL
+                throw ListingParseError.invalidURL
         }
 
         self.url = url
