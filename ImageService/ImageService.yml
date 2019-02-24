@@ -3,9 +3,10 @@ targets:
     type: library.static
     platform: iOS
     sources:
-      - ImageService/
+      - path: Sources
+        name: ImageService
     settings:
-      INFOPLIST_FILE: ModuleInfo.plist
+      INFOPLIST_FILE: ../ModuleInfo.plist
     configFiles:
-      Debug: Configs/ImageService.xcconfig
-      Release: Configs/ImageService.xcconfig
+      Debug: ../Configs/ImageService.xcconfig
+      Release: ../Configs/ImageService.xcconfig
