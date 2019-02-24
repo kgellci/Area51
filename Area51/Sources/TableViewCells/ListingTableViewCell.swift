@@ -22,7 +22,7 @@ extension ListingTableViewCell: ListingDisplayable {
 
 private extension ListingTableViewCell {
     func configureTitleText(with listing: Listing) {
-        titleLabel.text = listing.title.stripHtml
+        titleLabel.text = listing.title.strippedHtml
     }
 
     func configureThumbnailImageView(with listing: Listing) {
@@ -37,6 +37,6 @@ private extension ListingTableViewCell {
         }
 
         bodyLabel.isHidden = selfText.isEmpty
-        bodyLabel.text = selfText.stripHtml
+        bodyLabel.text = selfText.strippedHtml
     }
 }

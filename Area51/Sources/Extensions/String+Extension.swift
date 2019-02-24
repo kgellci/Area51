@@ -1,7 +1,7 @@
 import Foundation
 
 extension String {
-    var stripHtml: String {
+    var strippedHtml: String {
         guard let data = self.data(using: .utf8) else {
             return self
         }
