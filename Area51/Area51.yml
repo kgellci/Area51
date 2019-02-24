@@ -1,0 +1,18 @@
+targets:
+  Area51:
+    type: application
+    platform: iOS
+    deploymentTarget: "12.0"
+    sources: 
+      - Area51/
+    settings:
+      INFOPLIST_FILE: Area51/Info.plist
+    prebuildScripts:
+      - name: swiftlint
+        script: ./tmp/SwiftLint
+    configFiles:
+      Debug: Configs/area51-debug.xcconfig
+      Release: Configs/area51-release.xcconfig
+    dependencies:
+      - target: ImageService
+      - target: ListingService
