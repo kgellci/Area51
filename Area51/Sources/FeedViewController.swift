@@ -17,10 +17,6 @@ final class FeedViewController: UIViewController {
         super.viewDidLoad()
         setup()
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.isActive = true
-    }
 }
 
 private extension FeedViewController {

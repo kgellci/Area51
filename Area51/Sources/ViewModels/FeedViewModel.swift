@@ -1,7 +1,7 @@
 import Foundation
 import ListingService
 
-class FeedViewModel: BaseViewModel {
+class FeedViewModel {
 
     var subredditName: String?
     var updated: (() -> Void)?
@@ -25,11 +25,11 @@ class FeedViewModel: BaseViewModel {
         }
     }
 
-    override func didBecomeActive() {
-        dataSource = ListingsDataSource(subreddit: subreddit)
-    }
-
     init(with subreddit: Subreddit) {
+        defer {
+            self.dataSource = ListingsDataSource(subreddit: self.subreddit)
+        }
+
         self.subreddit = subreddit
         self.subredditName = subreddit.name
     }
