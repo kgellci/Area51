@@ -10,6 +10,10 @@ class ListingTableViewCell: UITableViewCell {
     static var reuseIdentifier: String {
         return "ListingTableViewCell"
     }
+
+    static var nib: UINib {
+        return UINib(nibName: "ListingTableViewCell", bundle: nil)
+    }
 }
 
 extension ListingTableViewCell: ListingDisplayable {
@@ -22,7 +26,7 @@ extension ListingTableViewCell: ListingDisplayable {
 
 private extension ListingTableViewCell {
     func configureTitleText(with listing: Listing) {
-        titleLabel.text = listing.title.strippedHtml
+        titleLabel.text = listing.title
     }
 
     func configureThumbnailImageView(with listing: Listing) {
@@ -37,6 +41,6 @@ private extension ListingTableViewCell {
         }
 
         bodyLabel.isHidden = selfText.isEmpty
-        bodyLabel.text = selfText.strippedHtml
+        bodyLabel.text = selfText
     }
 }

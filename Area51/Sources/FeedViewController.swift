@@ -1,66 +1,78 @@
+import UIKit
 import ListingService
 import SafariServices
-import UIKit
 
 final class FeedViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
-    private var dataSource: ListingsDataSource! {
-        didSet {
-            self.dataSource.updated = { [weak self] in
-                self?.tableView.refreshControl?.endRefreshing()
-                self?.tableView.reloadData()
-            }
-        }
-    }
+    @IBOutlet private weak var tableView: UITableView!
+    private var viewModel: FeedViewModel!
 
     class func instantiateFromStoryboard(withSubreddit subreddit: Subreddit) -> FeedViewController {
         let storyboard = UIStoryboard.feed
         let feedViewController: FeedViewController = storyboard.viewControllerFrom(identifier: "FeedViewController")
-        feedViewController.dataSource = ListingsDataSource(subreddit: subreddit)
-        feedViewController.title = subreddit.name
+        feedViewController.viewModel = FeedViewModel(with: subreddit)
         return feedViewController
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupTableView()
+        setup()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.isActive = true
+    }
+}
+
+private extension FeedViewController {
+    func setup() {
+        title = viewModel.subredditName
+        setupTableView()
+        bindViewModel()
     }
 
-    private func setupTableView() {
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.refreshControl = UIRefreshControl()
-        self.tableView.refreshControl?.addTarget(self, action: #selector(self.refreshData), for: .valueChanged)
-        self.tableView.register(UINib(nibName: "ListingTableViewCell", bundle: nil),
-                                forCellReuseIdentifier: "ListingTableViewCell")
-        self.tableView.register(UINib(nibName: "ListingThumbnailTableViewCell", bundle: nil),
-                                forCellReuseIdentifier: "ListingThumbnailTableViewCell")
+    func bindViewModel() {
+        viewModel.updated = { [weak self] in
+            self?.tableView.refreshControl?.endRefreshing()
+            self?.tableView.reloadData()
+        }
     }
 
-    @objc
-    private func refreshData() {
-        self.dataSource.refresh()
+    func setupTableView() {
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self,
+                                            action: #selector(refreshData),
+                                            for: .valueChanged)
+
+        tableView.register(ListingTableViewCell.nib,
+                           forCellReuseIdentifier: ListingTableViewCell.reuseIdentifier)
+    }
+
+    @objc func refreshData() {
+        viewModel.refreshListings()
     }
 }
 
 extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dataSource.listings.count
+        return viewModel.listingsCount
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        self.dataSource.loadMoreIfNeeded(currentIndex: indexPath.row)
-        let listing = self.dataSource.listings[indexPath.row]
+        viewModel.loadMoreIfNeeded(currentIndex: indexPath.row)
         let cell: ListingTableViewCell = tableView.reusableCell(forIdentifier: ListingTableViewCell.reuseIdentifier)
 
-        cell.display(listing)
+        if let listing = viewModel.listing(at: indexPath.row) {
+            cell.display(listing)
+        }
+
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let listing = self.dataSource.listings[indexPath.row]
-        let safariViewController = SFSafariViewController(url: listing.url)
-        self.present(safariViewController, animated: true, completion: nil)
+        if let listing = viewModel.listing(at: indexPath.row) {
+            let safariViewController = SFSafariViewController(url: listing.url)
+            present(safariViewController, animated: true, completion: nil)
+        }
     }
 }
