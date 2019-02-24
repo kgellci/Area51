@@ -29,7 +29,7 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Cc5-63-XHE">
-                                <rect key="frame" x="88" y="0.0" width="200" height="39"/>
+                                <rect key="frame" x="88" y="0.0" width="200" height="57.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wgH-vm-i9o">
                                         <rect key="frame" x="0.0" y="0.0" width="33.5" height="20.5"/>
@@ -41,6 +41,12 @@
                                         <rect key="frame" x="0.0" y="24.5" width="29" height="14.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subreddit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="82B-DU-pKc">
+                                        <rect key="frame" x="0.0" y="43" width="55.5" height="14.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -58,6 +64,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="bodyLabel" destination="ZIu-c8-W5l" id="hE4-te-3NQ"/>
+                <outlet property="subredditLabel" destination="82B-DU-pKc" id="Qch-qY-SBh"/>
                 <outlet property="thumbnailImageView" destination="WYq-7j-qxI" id="WAm-2v-xpP"/>
                 <outlet property="titleLabel" destination="wgH-vm-i9o" id="SHY-7p-Cvx"/>
             </connections>
