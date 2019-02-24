@@ -3,11 +3,12 @@ targets:
     type: library.static
     platform: iOS
     sources:
-      - ListingService/
+      - path: Sources
+        name: ListingService
     settings:
-      INFOPLIST_FILE: ModuleInfo.plist
+      INFOPLIST_FILE: ../ModuleInfo.plist
     configFiles:
-      Debug: Configs/ListingService.xcconfig
-      Release: Configs/ListingService.xcconfig
+      Debug: ../Configs/ListingService.xcconfig
+      Release: ../Configs/ListingService.xcconfig
     dependencies:
       - target: CoreAPI

@@ -3,9 +3,10 @@ targets:
     type: library.static
     platform: iOS
     sources:
-      - CoreAPI/
+      - path: Sources
+        name: CoreAPI
     settings:
-      INFOPLIST_FILE: ModuleInfo.plist
+      INFOPLIST_FILE: ../ModuleInfo.plist
     configFiles:
-      Debug: Configs/CoreAPI.xcconfig
-      Release: Configs/CoreAPI.xcconfig
+      Debug: ../Configs/CoreAPI.xcconfig
+      Release: ../Configs/CoreAPI.xcconfig
