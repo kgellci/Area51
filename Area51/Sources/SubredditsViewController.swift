@@ -112,11 +112,15 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
         return SubredditSections(rawValue: section)?.title
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return isFiltering() ? self.filteredMainSubreddits.count : self.subreddits.count
-        default:
-            return isFiltering() ? self.filteredDefaultSubreddits.count : self.dataSource.listings.count
+        if let tableViewSection = SubredditSections(rawValue: section) {
+            switch tableViewSection {
+            case .redditFeeds:
+                return isFiltering() ? self.filteredMainSubreddits.count : self.subreddits.count
+            case .defaultFeeds:
+                return isFiltering() ? self.filteredDefaultSubreddits.count : self.dataSource.listings.count
+            }
+        } else {
+            return 0
         }
     }
 
@@ -124,12 +128,15 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
         self.dataSource.loadMoreIfNeeded(currentIndex: indexPath.row)
         let cell = tableView.dequeueReusableCell(withIdentifier: "SubredditCell")!
         let textLabelString: String
-        if indexPath.section == 0 {
-            let subredditAtRow = getSubredditAtRow(forRow: indexPath.row)
-            textLabelString = subredditAtRow.name
-        } else {
-            let listing = getListingAtRow(forRow: indexPath.row)
-            textLabelString = listing.url.absoluteString
+        if let tableViewSection = SubredditSections(rawValue: indexPath.section) {
+            switch tableViewSection {
+            case .redditFeeds:
+                let subredditAtRow = getSubredditAtRow(forRow: indexPath.row)
+                textLabelString = subredditAtRow.name
+            case .defaultFeeds:
+                let listingAtRow = getListingAtRow(forRow: indexPath.row)
+                textLabelString = listingAtRow.url.absoluteString
+            }
         }
         cell.textLabel?.text = textLabelString
         return cell
@@ -138,12 +145,15 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedSubreddit: Subreddit
-        if indexPath.section == 0 {
-            let subredditAtRow = getSubredditAtRow(forRow: indexPath.row)
-            selectedSubreddit = subredditAtRow
-        } else {
-            let listing = getListingAtRow(forRow: indexPath.row)
-            selectedSubreddit = Subreddit.other(listing.displayName!)
+        if let tableViewSection = SubredditSections(rawValue: indexPath.section) {
+            switch tableViewSection {
+            case .redditFeeds:
+                let subredditAtRow = getSubredditAtRow(forRow: indexPath.row)
+                selectedSubreddit = subredditAtRow
+            case .defaultFeeds:
+                let listingAtRow = getListingAtRow(forRow: indexPath.row)
+                selectedSubreddit = Subreddit.other(listingAtRow.displayName!)
+            }
         }
         self.showSubreddit(selectedSubreddit)
     }
