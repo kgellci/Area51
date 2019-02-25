@@ -1,6 +1,6 @@
-import UIKit
 import ListingService
 import SafariServices
+import UIKit
 
 final class FeedViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!

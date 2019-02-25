@@ -1,5 +1,5 @@
-import UIKit
 import SafariServices
+import UIKit
 
 class SettingsViewController: UITableViewController {
 
