@@ -5,6 +5,7 @@ import ListingService
 class ListingTableViewCell: UITableViewCell {
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var bodyLabel: UILabel!
+    @IBOutlet private var subredditLabel: UILabel!
     @IBOutlet private var thumbnailImageView: NetworkImageView!
 
     static var reuseIdentifier: String {
@@ -20,6 +21,7 @@ extension ListingTableViewCell: ListingDisplayable {
     func display(_ listing: Listing) {
         configureTitleText(with: listing)
         configureThumbnailImageView(with: listing)
+        configureSubredditLabel(with: listing)
         configureBodyText(with: listing)
     }
 }
@@ -32,6 +34,16 @@ private extension ListingTableViewCell {
     func configureThumbnailImageView(with listing: Listing) {
         thumbnailImageView.isHidden = listing.thumbnailURL == nil
         thumbnailImageView.url = listing.thumbnailURL
+    }
+
+    func configureSubredditLabel(with listing: Listing) {
+        guard let subredditName = listing.subredditName  else {
+            subredditLabel.isHidden = true
+            return
+        }
+
+        subredditLabel.isHidden = subredditName.isEmpty
+        subredditLabel.text = subredditName.strippedHtml
     }
 
     func configureBodyText(with listing: Listing) {

@@ -9,6 +9,7 @@ public class Listing: Decodable {
     public let url: URL
     public let thumbnailURL: URL?
     public var selfText: String?
+    public let subredditName: String?
     public var displayName: String?
     let fullServerID: String
 
@@ -23,6 +24,7 @@ public class Listing: Decodable {
         case fullServerID = "name"
         case thumbnailURL = "thumbnail"
         case displayName = "display_name"
+        case subredditName = "subreddit"
     }
 
     public required init(from decoder: Decoder) throws {
@@ -32,6 +34,7 @@ public class Listing: Decodable {
         title = try innerData.decode(String.self, forKey: .title)
         fullServerID = try innerData.decode(String.self, forKey: .fullServerID)
         displayName = try? innerData.decode(String.self, forKey: .displayName)
+        subredditName = try? innerData.decode(String.self, forKey: .subredditName)
         selfText = try? innerData.decode(String.self, forKey: .selfText)
 
         let urlString = try innerData.decode(String.self, forKey: .url)
