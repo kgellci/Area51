@@ -1,0 +1,12 @@
+targets:
+  Core:
+    type: library.static
+    platform: iOS
+    sources:
+      - path: Sources
+        name: Core
+    settings:
+      INFOPLIST_FILE: ../ModuleInfo.plist
+    configFiles:
+      Debug: ../Configs/Core.xcconfig
+      Release: ../Configs/Core.xcconfig

@@ -16,5 +16,6 @@ targets:
       Debug: ../Configs/area51-debug.xcconfig
       Release: ../Configs/area51-release.xcconfig
     dependencies:
+      - target: Core
       - target: ImageService
       - target: ListingService
