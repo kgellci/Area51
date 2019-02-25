@@ -1,7 +1,7 @@
-import Foundation
+import UIKit
 
 extension String {
-    var strippedHtml: String {
+    public var strippedHtml: String {
         guard let data = self.data(using: .utf8) else {
             return self
         }

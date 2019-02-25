@@ -7,6 +7,7 @@ options:
   transitivelyLinkDependencies: true
 include:
   - Area51/Area51.yml
+  - Core/Core.yml
   - CoreAPI/CoreAPI.yml
   - ImageService/ImageService.yml
   - ListingService/ListingService.yml
