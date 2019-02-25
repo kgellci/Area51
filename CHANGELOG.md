@@ -13,6 +13,7 @@
 * [Add settings view controller](https://github.com/kgellci/Area51/pull/37)
 * [Populate with default subreddits](https://github.com/kgellci/Area51/pull/46)
 * [Added preview to posts on FeedViewController by RJ-Clegg](https://github.com/kgellci/Area51/pull/53)
+* [Added subreddit name to posts by ErrorNow](https://github.com/kgellci/Area51/pull/62)
 
 
 #### Bug Fixes
