@@ -1,6 +1,6 @@
-import UIKit
 import ImageService
 import ListingService
+import UIKit
 
 class ListingTableViewCell: UITableViewCell {
     @IBOutlet private var titleLabel: UILabel!
