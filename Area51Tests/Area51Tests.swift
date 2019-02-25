@@ -6,8 +6,8 @@
 //  Copyright © 2018 kgellci. All rights reserved.
 //
 
-import XCTest
 @testable import Area51
+import XCTest
 
 class Area51Tests: XCTestCase {
 
