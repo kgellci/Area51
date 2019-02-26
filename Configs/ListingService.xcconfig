@@ -1,2 +1,0 @@
-PRODUCT_BUNDLE_IDENTIFIER = $(inherited).ListingService
-SKIP_INSTALL = YES

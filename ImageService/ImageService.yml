@@ -8,5 +8,5 @@ targets:
     settings:
       INFOPLIST_FILE: ../ModuleInfo.plist
     configFiles:
-      Debug: ../Configs/ImageService.xcconfig
-      Release: ../Configs/ImageService.xcconfig
+      Debug: ../Configs/Module.xcconfig
+      Release: ../Configs/Module.xcconfig

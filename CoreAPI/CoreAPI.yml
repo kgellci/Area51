@@ -8,5 +8,5 @@ targets:
     settings:
       INFOPLIST_FILE: ../ModuleInfo.plist
     configFiles:
-      Debug: ../Configs/CoreAPI.xcconfig
-      Release: ../Configs/CoreAPI.xcconfig
+      Debug: ../Configs/Module.xcconfig
+      Release: ../Configs/Module.xcconfig
