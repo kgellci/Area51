@@ -8,8 +8,8 @@ targets:
     settings:
       INFOPLIST_FILE: ../ModuleInfo.plist
     configFiles:
-      Debug: ../Configs/Core.xcconfig
-      Release: ../Configs/Core.xcconfig
+      Debug: ../Configs/Module.xcconfig
+      Release: ../Configs/Module.xcconfig
   CoreTests:
     type: bundle.unit-test
     platform: iOS

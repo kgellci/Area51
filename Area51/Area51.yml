@@ -13,8 +13,8 @@ targets:
       - name: swiftlint
         script: ./tmp/SwiftLint
     configFiles:
-      Debug: ../Configs/area51-debug.xcconfig
-      Release: ../Configs/area51-release.xcconfig
+      Debug: ../Configs/area51.xcconfig
+      Release: ../Configs/area51.xcconfig
     dependencies:
       - target: Core
       - target: ImageService

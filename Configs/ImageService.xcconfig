@@ -1,2 +1,0 @@
-PRODUCT_BUNDLE_IDENTIFIER = $(inherited).ImageService
-SKIP_INSTALL = YES
