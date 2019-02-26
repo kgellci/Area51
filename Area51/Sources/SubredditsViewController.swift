@@ -3,7 +3,10 @@ import UIKit
 
 class SubredditsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+    private let searchController = UISearchController(searchResultsController: nil)
     private let subreddits = Subreddit.allSubreddits()
+    private var filteredMainSubreddits = [Subreddit]()
+    private var filteredDefaultSubreddits = [Listing]()
     private var dataSource: ListingsDataSource! {
         didSet {
             self.dataSource.updated = { [weak self] in
@@ -15,6 +18,7 @@ class SubredditsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupTableView()
+        self.setupSearchController()
         self.dataSource = ListingsDataSource(subreddit: Subreddit.defaultSubreddits )
         if let subreddit = self.subreddits.first {
             self.showSubreddit(subreddit)
@@ -26,11 +30,60 @@ class SubredditsViewController: UIViewController {
         self.tableView.dataSource = self
     }
 
+    private func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Subreddits"
+        searchController.hidesNavigationBarDuringPresentation = false
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+
+    }
+
     private func showSubreddit(_ subreddit: Subreddit) {
         let feedViewController = FeedViewController.instantiateFromStoryboard(withSubreddit: subreddit)
         self.splitViewController?.showDetailViewController(feedViewController.embeddedInNavigationController(),
                                                            sender: self)
     }
+
+    func searchBarIsEmpty() -> Bool {
+        return self.searchController.searchBar.text?.isEmpty ?? true
+    }
+
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredMainSubreddits = subreddits.filter({( subreddit: Subreddit ) -> Bool in
+            return subreddit.name.lowercased().contains(searchText.lowercased())
+        })
+        filteredDefaultSubreddits = dataSource.listings.filter({( listing: Listing) -> Bool in
+            return listing.displayName?.lowercased().contains(searchText.lowercased()) ?? false
+        })
+        tableView.reloadData()
+    }
+
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+
+    func getSubredditAtRow( forRow row: Int) -> Subreddit {
+        let subredditAtRow: Subreddit
+        if isFiltering() {
+            subredditAtRow = self.filteredMainSubreddits[row]
+        } else {
+            subredditAtRow = self.subreddits[row]
+        }
+        return subredditAtRow
+    }
+
+    func getListingAtRow( forRow row: Int) -> Listing {
+        let listingAtRow: Listing
+        if isFiltering() {
+            listingAtRow = self.filteredDefaultSubreddits[row]
+        } else {
+            listingAtRow = self.dataSource.listings[row]
+        }
+        return listingAtRow
+    }
+
 }
 
 extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -62,9 +115,9 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
         if let tableViewSection = SubredditSections(rawValue: section) {
             switch tableViewSection {
             case .redditFeeds:
-                return self.subreddits.count
+                return isFiltering() ? self.filteredMainSubreddits.count : self.subreddits.count
             case .defaultFeeds:
-                return self.dataSource.listings.count
+                return isFiltering() ? self.filteredDefaultSubreddits.count : self.dataSource.listings.count
             }
         } else {
             return 0
@@ -77,10 +130,11 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
         if let tableViewSection = SubredditSections(rawValue: indexPath.section) {
             switch tableViewSection {
             case .redditFeeds:
-                cell.textLabel?.text = self.subreddits[indexPath.row].name
+                let subredditAtRow = getSubredditAtRow(forRow: indexPath.row)
+                cell.textLabel?.text = subredditAtRow.name
             case .defaultFeeds:
-                let listing = self.dataSource.listings[indexPath.row]
-                cell.textLabel?.text = listing.url.absoluteString
+                let listingAtRow = getListingAtRow(forRow: indexPath.row)
+                cell.textLabel?.text = listingAtRow.url.absoluteString
             }
         }
         return cell
@@ -91,11 +145,18 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
         if let tableViewSection = SubredditSections(rawValue: indexPath.section) {
             switch tableViewSection {
             case .redditFeeds:
-                self.showSubreddit(self.subreddits[indexPath.row])
+                let subredditAtRow = getSubredditAtRow(forRow: indexPath.row)
+                self.showSubreddit(subredditAtRow)
             case .defaultFeeds:
-                let listing = self.dataSource.listings[indexPath.row]
-                self.showSubreddit(Subreddit.other(listing.displayName!))
+                let listingAtRow = getListingAtRow(forRow: indexPath.row)
+                self.showSubreddit(Subreddit.other(listingAtRow.displayName!))
             }
         }
+    }
+}
+
+extension SubredditsViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
     }
 }
