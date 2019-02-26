@@ -8,7 +8,7 @@ targets:
     settings:
       INFOPLIST_FILE: ../ModuleInfo.plist
     configFiles:
-      Debug: ../Configs/ListingService.xcconfig
-      Release: ../Configs/ListingService.xcconfig
+      Debug: ../Configs/Module.xcconfig
+      Release: ../Configs/Module.xcconfig
     dependencies:
       - target: CoreAPI
