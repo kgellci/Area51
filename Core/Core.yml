@@ -13,8 +13,9 @@ targets:
   CoreTests:
     type: bundle.unit-test
     platform: iOS
-    scheme: {}
     sources:
       - Tests
+    settings:
+      INFOPLIST_FILE: ModuleInfo.plist
     dependencies:
       - target: Core
