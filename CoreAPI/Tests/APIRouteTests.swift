@@ -2,7 +2,7 @@
 @testable import CoreAPI
 import XCTest
 
-class CoreAPITests: XCTestCase {
+class APIRouteTests: XCTestCase {
 
     func test_APIRoute_ProducesURL() {
         // Given
