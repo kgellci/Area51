@@ -11,7 +11,7 @@ class CoreTests: XCTestCase {
         let result = html.strippedHtml
 
         // Then
-        XCTAssertEqual(result, "Foo")
+        XCTAssertEqual(result, "FAIL")
     }
 
 }
