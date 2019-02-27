@@ -5,3 +5,4 @@ before_script:
 script:
   - ./tmp/SwiftLint lint --strict
   - xcodebuild -project Area51.xcodeproj -scheme Area51 -destination platform\=iOS\ Simulator,OS\=12.0,name\=iPhone\ X -configuration Debug build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - make test

@@ -8,3 +8,6 @@ generate:
 lint:
 	@./scripts/ensure-swiftlint.sh
 	./tmp/SwiftLint
+
+test:
+	xcodebuild test -project Area51.xcodeproj -scheme CoreTests -destination 'name=iPhone X'
