@@ -30,12 +30,3 @@ class CoreAPITests: XCTestCase {
     }
 
 }
-
-// MARK: - Test Doubles
-
-/// Create a mock which we can control in tests
-class RouterMock: APIRoute {
-    var path: String {
-        return "/test"
-    }
-}
