@@ -10,3 +10,11 @@ targets:
     configFiles:
       Debug: ../Configs/Module.xcconfig
       Release: ../Configs/Module.xcconfig
+  CoreTests:
+    type: bundle.unit-test
+    platform: iOS
+    scheme: {}
+    sources:
+      - Tests
+    dependencies:
+      - target: Core
