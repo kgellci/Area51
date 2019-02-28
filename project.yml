@@ -5,6 +5,7 @@ name: Area51
 options:
   bundleIdPrefix: com.gellci
   transitivelyLinkDependencies: true
+  createIntermediateGroups: true
 include:
   - Area51/Area51.yml
   - Core/Core.yml

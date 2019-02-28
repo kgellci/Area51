@@ -4,7 +4,6 @@ targets:
     platform: iOS
     sources:
       - path: Sources
-        name: Core
     settings:
       INFOPLIST_FILE: ../ModuleInfo.plist
     configFiles:
@@ -14,7 +13,7 @@ targets:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - Tests
+      - path: Tests
     settings:
       INFOPLIST_FILE: ModuleInfo.plist
     dependencies:

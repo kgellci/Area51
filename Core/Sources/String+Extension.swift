@@ -17,6 +17,6 @@ extension String {
                                                                 return self
         }
 
-        return attributedString.string
+        return attributedString.string.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
