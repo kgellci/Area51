@@ -39,6 +39,7 @@ class CoreAPITests: XCTestCase {
         assert(theResult, containsError: CoreAPIError.random)
     }
 
+    // swiftlint:disable force_cast
     func test_CoreAPI_GetData_ResumesTask() {
         // Given
         let sessionMock = SessionMock(data: nil, response: nil, error: nil)
@@ -52,4 +53,5 @@ class CoreAPITests: XCTestCase {
         // Then
         XCTAssertTrue(task.resumeWasCalled)
     }
+    // swiftlint:enable force_cast
 }

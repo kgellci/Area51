@@ -15,7 +15,8 @@ struct SessionMock: NetworkSession {
     var response: URLResponse?
     var error: Error?
 
-    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+    func dataTask(with url: URL,
+                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         completionHandler(data, response, error)
         return DataTaskMock()
     }
