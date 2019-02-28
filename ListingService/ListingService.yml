@@ -4,7 +4,6 @@ targets:
     platform: iOS
     sources:
       - path: Sources
-        name: ListingService
     settings:
       INFOPLIST_FILE: ../ModuleInfo.plist
     configFiles:
