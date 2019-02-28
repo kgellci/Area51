@@ -11,54 +11,45 @@ class CoreAPITests: XCTestCase {
     }
 
     func test_CoreAPI_GetData_ReturnsDataResult() {
-        let expectation = XCTestExpectation(description: "Returns data")
+        // Given
         let data = "foo".data(using: .utf8)!
         let sessionMock = SessionMock(data: data, response: nil, error: nil)
 
-        _ = CoreAPI.getData(forRoute: route, parameters: [:], session: sessionMock) { result in
-            defer { expectation.fulfill() }
-
-            // Check result
-            switch result {
-            case .success(let returnedData):
-                XCTAssertEqual(returnedData, data)
-            case .error:
-                XCTFail("Result case should be .success")
-            }
+        // When
+        var result: Result<Data>?
+        _ = CoreAPI.getData(forRoute: route, parameters: [:], session: sessionMock) {
+            result = $0
         }
 
-        wait(for: [expectation], timeout: 2.0)
+        // Then
+        assert(result, containsData: data)
     }
 
     func test_CoreAPI_GetData_WithNoData_ReturnsError() {
-        let expectation = XCTestExpectation(description: "Returns error")
+        // Given
         let sessionMock = SessionMock(data: nil, response: nil, error: nil)
 
-        _ = CoreAPI.getData(forRoute: route, parameters: [:], session: sessionMock) { result in
-            defer { expectation.fulfill() }
-
-            // Check result
-            switch result {
-            case .success:
-                XCTFail("Result should not be successful")
-            case .error(let error as CoreAPIError):
-                XCTAssertEqual(error, CoreAPIError.random)
-            case .error:
-                XCTFail("Result should be a CoreAPIError")
-            }
+        // When
+        var theResult: Result<Data>?
+        _ = CoreAPI.getData(forRoute: route, parameters: [:], session: sessionMock) {
+            theResult = $0
         }
 
-        wait(for: [expectation], timeout: 2.0)
+        // Then
+        assert(theResult, containsError: CoreAPIError.random)
     }
 
     func test_CoreAPI_GetData_ResumesTask() {
+        // Given
         let sessionMock = SessionMock(data: nil, response: nil, error: nil)
 
+        // When
         let task = CoreAPI.getData(forRoute: route,
                                    parameters: [:],
                                    session: sessionMock,
                                    completion: { _ in }) as! DataTaskMock
 
+        // Then
         XCTAssertTrue(task.resumeWasCalled)
     }
 }
