@@ -9,3 +9,12 @@ targets:
     configFiles:
       Debug: ../Configs/Module.xcconfig
       Release: ../Configs/Module.xcconfig
+  CoreAPITests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests
+    settings:
+      INFOPLIST_FILE: ModuleInfo.plist
+    dependencies:
+      - target: CoreAPI
