@@ -1,19 +1,19 @@
 import Foundation
 
-struct ListingResponse: Decodable {
-    let listings: [Listing]
+struct ListingResponse<T: Decodable>: Decodable {
+    let results: [T]
 
     enum CodingKeys: String, CodingKey {
         case data
     }
 
     enum DataKeys: String, CodingKey {
-        case listings = "children"
+        case resutls = "children"
     }
 
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let data = try values.nestedContainer(keyedBy: DataKeys.self, forKey: .data)
-        listings = try data.decode([Listing].self, forKey: .listings)
+        results = try data.decode([T].self, forKey: .resutls)
     }
 }

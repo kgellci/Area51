@@ -12,3 +12,5 @@ include:
   - CoreAPI/CoreAPI.yml
   - ImageService/ImageService.yml
   - ListingService/ListingService.yml
+  - PostService/PostService.yml
+  - SubredditService/SubredditService.yml

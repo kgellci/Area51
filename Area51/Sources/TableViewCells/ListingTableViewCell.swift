@@ -1,5 +1,5 @@
 import ImageService
-import ListingService
+import PostService
 import UIKit
 
 class ListingTableViewCell: UITableViewCell {
@@ -17,27 +17,27 @@ class ListingTableViewCell: UITableViewCell {
     }
 }
 
-extension ListingTableViewCell: ListingDisplayable {
-    func display(_ listing: Listing) {
-        configureTitleText(with: listing)
-        configureThumbnailImageView(with: listing)
-        configureSubredditLabel(with: listing)
-        configureBodyText(with: listing)
+extension ListingTableViewCell: PostDisplayable {
+    func display(_ post: Post) {
+        configureTitleText(with: post)
+        configureThumbnailImageView(with: post)
+        configureSubredditLabel(with: post)
+        configureBodyText(with: post)
     }
 }
 
 private extension ListingTableViewCell {
-    func configureTitleText(with listing: Listing) {
-        titleLabel.text = listing.title
+    func configureTitleText(with post: Post) {
+        titleLabel.text = post.title
     }
 
-    func configureThumbnailImageView(with listing: Listing) {
-        thumbnailImageView.isHidden = listing.thumbnailURL == nil
-        thumbnailImageView.url = listing.thumbnailURL
+    func configureThumbnailImageView(with post: Post) {
+        thumbnailImageView.isHidden = post.thumbnailURL == nil
+        thumbnailImageView.url = post.thumbnailURL
     }
 
-    func configureSubredditLabel(with listing: Listing) {
-        guard let subredditName = listing.subredditName  else {
+    func configureSubredditLabel(with post: Post) {
+        guard let subredditName = post.subredditName  else {
             subredditLabel.isHidden = true
             return
         }
@@ -46,8 +46,8 @@ private extension ListingTableViewCell {
         subredditLabel.text = subredditName.strippedHtml
     }
 
-    func configureBodyText(with listing: Listing) {
-        guard let selfText = listing.selfText  else {
+    func configureBodyText(with post: Post) {
+        guard let selfText = post.selfText  else {
             bodyLabel.isHidden = true
             return
         }

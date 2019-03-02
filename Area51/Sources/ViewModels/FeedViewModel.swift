@@ -1,23 +1,24 @@
 import Core
 import Foundation
-import ListingService
+import PostService
+import SubredditService
 
 class FeedViewModel {
 
     var subredditName: String?
     var updated: (() -> Void)?
     private let subreddit: Subreddit
-    private var listings = [Listing]()
+    private var posts = [Post]()
 
-    var listingsCount: Int {
-        return listings.count
+    var postsCount: Int {
+        return posts.count
     }
 
-    private var dataSource: ListingsDataSource! {
+    private var dataSource: PostDataSource! {
         didSet {
             self.dataSource.updated = { [weak self] in
-                if let listings = self?.dataSource.listings {
-                    self?.listings = listings
+                if let posts = self?.dataSource.posts {
+                    self?.posts = posts
                     self?.removeHtmlFromListings()
                 }
 
@@ -26,25 +27,24 @@ class FeedViewModel {
         }
     }
 
-    init(with subreddit: Subreddit) {
+    init(with subreddit: SubredditService.Subreddit) {
         defer {
-            self.dataSource = ListingsDataSource(subreddit: self.subreddit)
+            self.dataSource = PostDataSource(subreddit: subreddit)
         }
 
         self.subreddit = subreddit
-        self.subredditName = subreddit.name
+        self.subredditName = subreddit.displayName
     }
 
     private func removeHtmlFromListings() {
-        listings.forEach({$0.displayName = $0.displayName?.strippedHtml})
-        listings.forEach({$0.selfText = $0.selfText?.strippedHtml})
+        posts.forEach({$0.selfText = $0.selfText?.strippedHtml})
     }
 }
 
 extension FeedViewModel {
-    func listing(at index: Int) -> Listing? {
-        if index < listings.count {
-            return listings[index]
+    func post(at index: Int) -> Post? {
+        if index < posts.count {
+            return posts[index]
         }
         return nil
     }
