@@ -1,16 +1,15 @@
 import CoreAPI
 import Foundation
+import ListingService
 
-public class ListingsDataSource {
-    private let subreddit: Subreddit
-    public private(set) var listings = [Listing]()
+public class SubredditDataSource {
+    public private(set) var subreddits = [Subreddit]()
     public var updated: (() -> Void)?
 
     private var refreshTask: URLSessionTask?
     private var loadMoreTask: URLSessionTask?
 
-    public init(subreddit: Subreddit) {
-        self.subreddit = subreddit
+    public init() {
         self.refresh()
     }
 
@@ -28,11 +27,12 @@ public class ListingsDataSource {
 
         self.loadMoreTask?.cancel()
         self.loadMoreTask = nil
-        self.refreshTask = CoreAPI.listings(forSubreddit: self.subreddit) { [weak self] result in
+        self.refreshTask = CoreAPI.results(listingRoute: SubredditRoute.defaultSubreddits,
+                                           value: Subreddit.self) { [weak self] result in
             self?.refreshTask = nil
             switch result {
-            case .success(let listings):
-                self?.listings = listings
+            case .success(let subreddits):
+                self?.subreddits = subreddits
                 self?.updated?()
             case .error:
                 return
@@ -41,7 +41,7 @@ public class ListingsDataSource {
     }
 
     public func loadMoreIfNeeded(currentIndex: Int) {
-        if currentIndex == self.listings.count - 1 {
+        if currentIndex == self.subreddits.count - 1 {
             self.loadMore()
         }
     }
@@ -51,12 +51,12 @@ public class ListingsDataSource {
             return
         }
 
-        self.loadMoreTask = CoreAPI.listings(forSubreddit: self.subreddit,
-                                             afterListing: self.listings.last) { [weak self] result in
+        self.loadMoreTask = CoreAPI.results(listingRoute: SubredditRoute.defaultSubreddits, value: Subreddit.self,
+                                            afterID: self.subreddits.last?.fullServerID) { [weak self] result in
             self?.loadMoreTask = nil
             switch result {
-            case .success(let listings):
-                self?.listings.append(contentsOf: listings)
+            case .success(let subreddits):
+                self?.subreddits.append(contentsOf: subreddits)
                 self?.updated?()
             case .error:
                 return

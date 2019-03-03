@@ -15,5 +15,5 @@ TEST_SCHEMES = CoreTests CoreAPITests
 # Loop through each test scheme and run the tests
 test:
 	@(for scheme in $(TEST_SCHEMES) ; do \
-		xcodebuild test -project Area51.xcodeproj -scheme "$${scheme}" -destination 'name=iPhone X'; \
+		xcodebuild test -quiet -project Area51.xcodeproj -scheme "$${scheme}" -destination 'name=iPhone X'; \
 	done)

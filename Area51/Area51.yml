@@ -18,4 +18,5 @@ targets:
     dependencies:
       - target: Core
       - target: ImageService
-      - target: ListingService
+      - target: PostService
+      - target: SubredditService

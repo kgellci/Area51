@@ -1,8 +1,8 @@
 import Foundation
 
-struct ListingParser {
-    static func listings(from data: Data) -> [Listing] {
+struct ListingParser<T: Decodable> {
+    static func results(from data: Data) -> [T] {
         let jsonDecoder = JSONDecoder()
-        return (try? jsonDecoder.decode(ListingResponse.self, from: data).listings) ?? [Listing]()
+        return (try? jsonDecoder.decode(ListingResponse.self, from: data).results) ?? [T]()
     }
 }

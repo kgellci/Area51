@@ -1,5 +1,5 @@
-import ListingService
 import SafariServices
+import SubredditService
 import UIKit
 
 final class FeedViewController: UIViewController {
@@ -50,15 +50,15 @@ private extension FeedViewController {
 
 extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.listingsCount
+        return viewModel.postsCount
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         viewModel.loadMoreIfNeeded(currentIndex: indexPath.row)
         let cell: ListingTableViewCell = tableView.reusableCell(forIdentifier: ListingTableViewCell.reuseIdentifier)
 
-        if let listing = viewModel.listing(at: indexPath.row) {
-            cell.display(listing)
+        if let post = viewModel.post(at: indexPath.row) {
+            cell.display(post)
         }
 
         return cell
@@ -66,8 +66,8 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if let listing = viewModel.listing(at: indexPath.row) {
-            let safariViewController = SFSafariViewController(url: listing.url)
+        if let post = viewModel.post(at: indexPath.row) {
+            let safariViewController = SFSafariViewController(url: post.url)
             present(safariViewController, animated: true, completion: nil)
         }
     }

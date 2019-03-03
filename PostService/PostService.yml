@@ -1,0 +1,14 @@
+targets:
+  PostService:
+    type: library.static
+    platform: iOS
+    sources:
+      - path: Sources
+    settings:
+      INFOPLIST_FILE: ../ModuleInfo.plist
+    configFiles:
+      Debug: ../Configs/Module.xcconfig
+      Release: ../Configs/Module.xcconfig
+    dependencies:
+      - target: ListingService
+      - target: SubredditService

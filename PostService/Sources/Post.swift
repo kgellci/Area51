@@ -1,16 +1,15 @@
 import Foundation
 
-public enum ListingParseError: Error {
+public enum PostParseError: Error {
     case invalidURL
 }
 
-public class Listing: Decodable {
+public class Post: Decodable {
     public let title: String
     public let url: URL
     public let thumbnailURL: URL?
     public var selfText: String?
     public let subredditName: String?
-    public var displayName: String?
     let fullServerID: String
 
     enum CodingKeys: String, CodingKey {
@@ -23,7 +22,6 @@ public class Listing: Decodable {
         case selfText = "selftext"
         case fullServerID = "name"
         case thumbnailURL = "thumbnail"
-        case displayName = "display_name"
         case subredditName = "subreddit"
     }
 
@@ -33,7 +31,6 @@ public class Listing: Decodable {
 
         title = try innerData.decode(String.self, forKey: .title)
         fullServerID = try innerData.decode(String.self, forKey: .fullServerID)
-        displayName = try? innerData.decode(String.self, forKey: .displayName)
         subredditName = try? innerData.decode(String.self, forKey: .subredditName)
         selfText = try? innerData.decode(String.self, forKey: .selfText)
 
@@ -41,7 +38,7 @@ public class Listing: Decodable {
         // Seems Reddit can return a url with invalid characters which blows up parsing
         guard let decodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),
             let url = URL(string: decodedURLString) else {
-                throw ListingParseError.invalidURL
+                throw PostParseError.invalidURL
         }
 
         self.url = url
