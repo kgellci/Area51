@@ -7,6 +7,7 @@ class SubredditsViewController: UIViewController {
     private let mainSubreddits = Subreddit.allSubreddits
     private var filteredMainSubreddits = [Subreddit]()
     private var filteredDefaultSubreddits = [Subreddit]()
+    private var searchResultSubreddits = [Subreddit]()
     private var dataSource: SubredditDataSource! {
         didSet {
             dataSource.updated = { [weak self] in
@@ -19,12 +20,25 @@ class SubredditsViewController: UIViewController {
             }
         }
     }
+    private var searchDataSource: SearchDataSource! {
+        didSet {
+            searchDataSource.updated = { [weak self] in
+                guard let `self` = self else {
+                    return
+                }
+
+                self.searchResultSubreddits = self.searchDataSource.subreddits
+                self.tableView.reloadData()
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupSearchController()
         dataSource = SubredditDataSource()
+        searchDataSource = SearchDataSource()
 
         filteredMainSubreddits = mainSubreddits
         if let subreddit = mainSubreddits.first {
@@ -60,6 +74,7 @@ class SubredditsViewController: UIViewController {
         if searchText == "" {
             filteredMainSubreddits = mainSubreddits
             filteredDefaultSubreddits = dataSource.subreddits
+            searchResultSubreddits = []
             tableView.reloadData()
             return
         }
@@ -71,6 +86,8 @@ class SubredditsViewController: UIViewController {
         filteredDefaultSubreddits = dataSource.subreddits.filter({( subreddit: Subreddit) -> Bool in
             return subreddit.displayName.lowercased().contains(searchText.lowercased())
         })
+
+        searchDataSource.refresh(withQuery: searchText)
 
         tableView.reloadData()
     }
@@ -85,6 +102,8 @@ class SubredditsViewController: UIViewController {
             return filteredMainSubreddits[indexPath.row]
         case .defaultSubreddits?:
             return filteredDefaultSubreddits[indexPath.row]
+        case .searchResultSubreddits?:
+            return searchResultSubreddits[indexPath.row]
         case nil:
             return nil
         }
@@ -95,6 +114,7 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
     enum SubredditSections: Int {
         case mainSubreddits
         case defaultSubreddits
+        case searchResultSubreddits
 
         public var title: String {
             switch self {
@@ -102,10 +122,12 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
                 return "Main Subreddits"
             case .defaultSubreddits:
                 return "Default Subreddits"
+            case .searchResultSubreddits:
+                return "Search Results"
             }
         }
         public static var allSections: [SubredditSections] {
-            return [.mainSubreddits, .defaultSubreddits]
+            return [.mainSubreddits, .defaultSubreddits, .searchResultSubreddits]
         }
     }
 
@@ -123,6 +145,8 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
             return filteredMainSubreddits.count
         case .defaultSubreddits?:
             return filteredDefaultSubreddits.count
+        case .searchResultSubreddits?:
+            return searchResultSubreddits.count
         case nil:
             return 0
         }
