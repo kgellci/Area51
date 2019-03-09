@@ -7,7 +7,7 @@ class SubredditsViewController: UIViewController {
     private let mainSubreddits = Subreddit.allSubreddits
     private var filteredMainSubreddits = [Subreddit]()
     private var filteredDefaultSubreddits = [Subreddit]()
-    private var searchResultSubreddits = [Subreddit]()
+    private var searchResults = [SearchResult]()
     private var dataSource: SubredditDataSource! {
         didSet {
             dataSource.updated = { [weak self] in
@@ -27,7 +27,7 @@ class SubredditsViewController: UIViewController {
                     return
                 }
 
-                self.searchResultSubreddits = self.searchDataSource.subreddits
+                self.searchResults = self.searchDataSource.searchResults
                 self.tableView.reloadData()
             }
         }
@@ -74,7 +74,7 @@ class SubredditsViewController: UIViewController {
         if searchText == "" {
             filteredMainSubreddits = mainSubreddits
             filteredDefaultSubreddits = dataSource.subreddits
-            searchResultSubreddits = []
+            searchResults = []
             tableView.reloadData()
             return
         }
@@ -87,7 +87,7 @@ class SubredditsViewController: UIViewController {
             return subreddit.displayName.lowercased().contains(searchText.lowercased())
         })
 
-        searchDataSource.refresh(withQuery: searchText)
+        searchDataSource.refreshSearchResults(withQuery: searchText)
 
         tableView.reloadData()
     }
@@ -103,10 +103,30 @@ class SubredditsViewController: UIViewController {
         case .defaultSubreddits?:
             return filteredDefaultSubreddits[indexPath.row]
         case .searchResultSubreddits?:
-            return searchResultSubreddits[indexPath.row]
+            return Subreddit(displayName: searchResults[indexPath.row].subredditName!)
         case nil:
             return nil
         }
+    }
+
+    func getRowCount(forSection section: Int) -> Int {
+        switch SubredditSections(rawValue: section) {
+        case .mainSubreddits?:
+            return filteredMainSubreddits.count
+        case .defaultSubreddits?:
+            return filteredDefaultSubreddits.count
+        case .searchResultSubreddits?:
+            return searchResults.count
+        case nil:
+            return 0
+        }
+    }
+
+    func getSectionHeaderTitle(forSection section: Int) -> String? {
+        if getRowCount(forSection: section) > 0 {
+            return SubredditSections(rawValue: section)?.title
+        }
+        return nil
     }
 }
 
@@ -136,20 +156,11 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return SubredditSections(rawValue: section)?.title
+        return getSectionHeaderTitle(forSection: section)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch SubredditSections(rawValue: section) {
-        case .mainSubreddits?:
-            return filteredMainSubreddits.count
-        case .defaultSubreddits?:
-            return filteredDefaultSubreddits.count
-        case .searchResultSubreddits?:
-            return searchResultSubreddits.count
-        case nil:
-            return 0
-        }
+        return getRowCount(forSection: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

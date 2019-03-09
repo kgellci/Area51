@@ -16,23 +16,4 @@ public extension CoreAPI {
             }
         }
     }
-    public static func seachResults<T: Decodable>(listingRoute: APIRoute,
-                                                  value: T.Type,
-                                                  afterID: String? = nil,
-                                                  query: String,
-                                                  completion: @escaping (Result<[T]>) -> Void) -> URLSessionTask {
-
-        var parameters = [String: String]()
-        parameters["q"] = query
-        if let afterID = afterID {
-            parameters["after"] = afterID
-        }
-
-        return self.getSearchData(forRoute: listingRoute, parameters: parameters, query: query) { result in
-            let listingsResult = result.map(ListingParser<T>.results)
-            DispatchQueue.main.async {
-                completion(listingsResult)
-            }
-        }
-    }
 }
