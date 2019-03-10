@@ -19,4 +19,24 @@ public struct CoreAPI {
         task.resume()
         return task
     }
+
+    public static func getSearchData(forRoute route: APIRoute,
+                                     parameters: [String: String],
+                                     session: NetworkSession = URLSession.shared,
+                                     completion: @escaping (Result<Data>) -> Void) -> URLSessionTask {
+        let url = route.resolving(baseURL: self.baseURL, parameters: parameters)
+        var request = URLRequest(url: url)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        let task = session.dataTask(with: request) { (data, _, _) in
+            if let data = data {
+                completion(Result(success: data))
+            } else {
+                completion(Result(error: CoreAPIError.random))
+            }
+        }
+
+        task.resume()
+        return task
+    }
 }

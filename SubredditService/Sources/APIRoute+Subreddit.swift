@@ -5,10 +5,16 @@ public enum SubredditRoute: APIRoute {
     case defaultSubreddits
 
     public var path: String {
-        return "/subreddits/default"
+        switch self {
+        case .defaultSubreddits:
+            return "/subreddits/default"
+        }
     }
 
     public var name: String {
-        return "Defaults"
+        switch self {
+        case .defaultSubreddits:
+            return "/Defaults"
+        }
     }
 }

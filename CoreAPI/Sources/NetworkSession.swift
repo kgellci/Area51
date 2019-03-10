@@ -4,6 +4,8 @@ import Foundation
 public protocol NetworkSession {
     func dataTask(with url: URL,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+    func dataTask(with url: URLRequest,
+                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
 /// Conform `URLSession` to `NetworkSession`
