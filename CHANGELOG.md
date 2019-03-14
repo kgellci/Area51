@@ -15,6 +15,7 @@
 * [Added preview to posts on FeedViewController by RJ-Clegg](https://github.com/kgellci/Area51/pull/53)
 * [Added subreddit name to posts by ErrorNow](https://github.com/kgellci/Area51/pull/62)
 * [Add a search bar to search subreddits ](https://github.com/kgellci/Area51/pull/72)
+* [Add search subreddits from API functionality](https://github.com/kgellci/Area51/pull/90)
 
 
 #### Bug Fixes
