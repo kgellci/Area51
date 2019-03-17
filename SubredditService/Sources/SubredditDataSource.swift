@@ -4,14 +4,13 @@ import ListingService
 
 public class SubredditDataSource {
     public private(set) var subreddits = [Subreddit]()
-    private var pagingFinished: Bool
+    private var pagingFinished = false
     public var updated: (() -> Void)?
 
     private var refreshTask: URLSessionTask?
     private var loadMoreTask: URLSessionTask?
 
     public init() {
-        self.pagingFinished = false
         self.refresh()
     }
 
@@ -35,7 +34,7 @@ public class SubredditDataSource {
             switch result {
             case .success(let subreddits):
                 self?.subreddits = subreddits
-                self?.pagingFinished = self?.setPagingState(count: subreddits.count) ?? false
+                self?.pagingFinished = self?.computePagingState(count: subreddits.count) ?? false
                 self?.updated?()
             case .error:
                 return
@@ -60,7 +59,7 @@ public class SubredditDataSource {
             switch result {
             case .success(let subreddits):
                 self?.subreddits.append(contentsOf: subreddits)
-                self?.pagingFinished = self?.setPagingState(count: subreddits.count) ?? false
+                self?.pagingFinished = self?.computePagingState(count: subreddits.count) ?? false
                 self?.updated?()
             case .error:
                 return
@@ -70,10 +69,7 @@ public class SubredditDataSource {
 }
 
 extension SubredditDataSource {
-    func setPagingState(count: Int) -> Bool {
-        if count == 0 {
-            return true
-        }
-        return false
+    private func computePagingState(count: Int) -> Bool {
+        return count == 0
     }
 }
