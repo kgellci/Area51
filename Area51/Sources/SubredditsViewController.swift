@@ -169,6 +169,18 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
         if let subreddit = getSubreddit(forIndexPath: indexPath) {
             cell.textLabel?.text = subreddit.displayName
         }
+        if let image = UIImage(named: "AppIcon") {
+            print("The loaded image: \(image)")
+
+            if let imageView =  cell.imageView {
+                imageView.layer.borderWidth = 1
+                imageView.layer.masksToBounds = false
+                imageView.layer.borderColor = UIColor.white.cgColor
+                imageView.layer.cornerRadius = imageView.frame.height/2
+                imageView.clipsToBounds = true
+                imageView.image = image
+            }
+        }
 
         return cell
     }
