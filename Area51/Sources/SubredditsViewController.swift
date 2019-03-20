@@ -1,3 +1,4 @@
+import ImageService
 import SubredditService
 import UIKit
 
@@ -103,7 +104,8 @@ class SubredditsViewController: UIViewController {
         case .defaultSubreddits?:
             return filteredDefaultSubreddits[indexPath.row]
         case .searchResultSubreddits?:
-            return Subreddit(displayName: searchResults[indexPath.row].subredditName!)
+            let searchResult = searchResults[indexPath.row]
+            return Subreddit(displayName: searchResult.subredditName!, iconImgURL: searchResult.iconImgURL)
         case nil:
             return nil
         }
@@ -168,18 +170,20 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SubredditCell")!
         if let subreddit = getSubreddit(forIndexPath: indexPath) {
             cell.textLabel?.text = subreddit.displayName
+
+            if let imageURL = subreddit.iconImgURL {
+
+                ImageFetcher.image(forURL: imageURL) { [weak imageView = cell.imageView] (image, url) in
+                    if url == imageURL {
+                        imageView?.image = image
+                    }
+                }
+            }
+
         }
         if let image = UIImage(named: "AppIcon") {
             print("The loaded image: \(image)")
-
-            if let imageView =  cell.imageView {
-                imageView.layer.borderWidth = 1
-                imageView.layer.masksToBounds = false
-                imageView.layer.borderColor = UIColor.white.cgColor
-                imageView.layer.cornerRadius = imageView.frame.height/2
-                imageView.clipsToBounds = true
-                imageView.image = image
-            }
+            cell.imageView?.image = image
         }
 
         return cell
@@ -190,6 +194,15 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
         if let subreddit = getSubreddit(forIndexPath: indexPath) {
             showSubreddit(subreddit)
         }
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+
+        if let frameHeight = cell.imageView?.frame.height {
+            cell.imageView?.layer.cornerRadius = frameHeight > 0 ? frameHeight/2 : 10
+        }
+        cell.imageView?.layer.masksToBounds = true
+        cell.imageView?.clipsToBounds = true
     }
 }
 

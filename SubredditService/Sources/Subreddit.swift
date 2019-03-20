@@ -8,6 +8,7 @@ public class Subreddit: Decodable {
     private static let kind = "t5"
 
     public let displayName: String
+    public var iconImgURL: URL?
     let fullServerID: String?
 
     enum CodingKeys: String, CodingKey {
@@ -18,11 +19,17 @@ public class Subreddit: Decodable {
     enum InnerDataKeys: String, CodingKey {
         case fullServerID = "name"
         case displayName = "display_name"
+        case iconImg = "icon_img"
     }
 
     public init (displayName: String) {
         self.displayName = displayName
         fullServerID = nil
+    }
+
+    public convenience init(displayName: String, iconImgURL: URL?) {
+        self.init(displayName: displayName)
+        self.iconImgURL = iconImgURL
     }
 
     public required init(from decoder: Decoder) throws {
@@ -35,6 +42,8 @@ public class Subreddit: Decodable {
 
         fullServerID = try innerData.decode(String.self, forKey: .fullServerID)
         displayName = try innerData.decode(String.self, forKey: .displayName)
+        let thumbnail: URL? = try? innerData.decode(URL.self, forKey: .iconImg)
+        self.iconImgURL = thumbnail?.host != nil ? thumbnail : nil
     }
 }
 
