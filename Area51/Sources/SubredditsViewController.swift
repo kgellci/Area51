@@ -130,6 +130,14 @@ class SubredditsViewController: UIViewController {
         }
         return nil
     }
+
+    func resizeImage(image: UIImage, ToSize newSize: CGSize) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        image.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: newSize.width, height: newSize.height)))
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
 }
 
 extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -168,22 +176,24 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         dataSource.loadMoreIfNeeded(currentIndex: indexPath.row)
         let cell = tableView.dequeueReusableCell(withIdentifier: "SubredditCell")!
+
+        //set placeholder image
+        if let image = UIImage(named: "AppIcon") {
+            cell.imageView?.image = image
+        }
+
         if let subreddit = getSubreddit(forIndexPath: indexPath) {
             cell.textLabel?.text = subreddit.displayName
 
             if let imageURL = subreddit.iconImgURL {
 
-                ImageFetcher.image(forURL: imageURL) { [weak imageView = cell.imageView] (image, url) in
+                ImageFetcher.image(forURL: imageURL) { [weak imageView = cell.imageView, weak self] (image, url) in
                     if url == imageURL {
-                        imageView?.image = image
+                        imageView?.image = self?.resizeImage(image: image!, ToSize: CGSize(width: 20, height: 20))
                     }
                 }
             }
 
-        }
-        if let image = UIImage(named: "AppIcon") {
-            print("The loaded image: \(image)")
-            cell.imageView?.image = image
         }
 
         return cell
