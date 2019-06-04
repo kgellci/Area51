@@ -21,9 +21,9 @@ Area51 is an open source Reddit client for iOS built entirely in Swift!
 
 ### Requirements
 
-Make sure you have Xcode: 10.1 or higher.
+Make sure you have Xcode: 10.2 or higher.
 
-This project currently supports Swift 4.2+
+This project currently supports Swift 5.0+
 
 ### Setup
 
