@@ -175,28 +175,18 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         dataSource.loadMoreIfNeeded(currentIndex: indexPath.row)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SubredditCell")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SubredditCell") as? SubredditTableViewCell
 
         //set placeholder image
         if let image = UIImage(named: "AppIcon") {
-            cell.imageView?.image = image
+            cell?.customImageView?.image = image
         }
 
         if let subreddit = getSubreddit(forIndexPath: indexPath) {
-            cell.textLabel?.text = subreddit.displayName
-
-            if let imageURL = subreddit.iconImgURL {
-
-                ImageFetcher.image(forURL: imageURL) { [weak imageView = cell.imageView, weak self] (image, url) in
-                    if url == imageURL {
-                        imageView?.image = self?.resizeImage(image: image!, ToSize: CGSize(width: 20, height: 20))
-                    }
-                }
-            }
-
+            cell?.displayCell(subreddit)
         }
 
-        return cell
+        return cell!
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -208,11 +198,14 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        if let frameHeight = cell.imageView?.frame.height {
-            cell.imageView?.layer.cornerRadius = frameHeight > 0 ? frameHeight/2 : 10
+        guard let cell = cell as? SubredditTableViewCell else {
+            return
         }
-        cell.imageView?.layer.masksToBounds = true
-        cell.imageView?.clipsToBounds = true
+
+        cell.customImageView?.layer.cornerRadius = 10
+        cell.customImageView?.layer.masksToBounds = true
+        cell.customImageView?.clipsToBounds = true
+
     }
 }
 
