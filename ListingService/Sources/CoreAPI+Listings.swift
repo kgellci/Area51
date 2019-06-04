@@ -2,8 +2,8 @@ import CoreAPI
 import Foundation
 
 public extension CoreAPI {
-    public static func results<T: Decodable>(listingRoute: APIRoute, value: T.Type, afterID: String? = nil,
-                                             completion: @escaping (Result<[T]>) -> Void) -> URLSessionTask {
+    static func results<T: Decodable>(listingRoute: APIRoute, value: T.Type, afterID: String? = nil,
+                                      completion: @escaping (Result<[T]>) -> Void) -> URLSessionTask {
         var parameters = [String: String]()
         if let afterID = afterID {
             parameters["after"] = afterID

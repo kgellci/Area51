@@ -48,11 +48,11 @@ public class Subreddit: Decodable {
 }
 
 public extension Subreddit {
-    public static var allSubreddits: [Subreddit] {
+    static var allSubreddits: [Subreddit] {
         return [Subreddit(displayName: "Popular"), Subreddit(displayName: "News")]
     }
 
-    public var path: String {
+    var path: String {
         return "/r/\(displayName)"
     }
 }
