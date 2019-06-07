@@ -131,13 +131,6 @@ class SubredditsViewController: UIViewController {
         return nil
     }
 
-    func resizeImage(image: UIImage, ToSize newSize: CGSize) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
-        image.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: newSize.width, height: newSize.height)))
-        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return newImage
-    }
 }
 
 extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
