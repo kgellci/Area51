@@ -1,3 +1,4 @@
+import ImageService
 import SubredditService
 import UIKit
 
@@ -103,7 +104,8 @@ class SubredditsViewController: UIViewController {
         case .defaultSubreddits?:
             return filteredDefaultSubreddits[indexPath.row]
         case .searchResultSubreddits?:
-            return Subreddit(displayName: searchResults[indexPath.row].subredditName!)
+            let searchResult = searchResults[indexPath.row]
+            return Subreddit(displayName: searchResult.subredditName!, iconImgURL: searchResult.iconImgURL)
         case nil:
             return nil
         }
@@ -128,6 +130,7 @@ class SubredditsViewController: UIViewController {
         }
         return nil
     }
+
 }
 
 extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -165,12 +168,18 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         dataSource.loadMoreIfNeeded(currentIndex: indexPath.row)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SubredditCell")!
-        if let subreddit = getSubreddit(forIndexPath: indexPath) {
-            cell.textLabel?.text = subreddit.displayName
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SubredditCell") as? SubredditTableViewCell
+
+        //set placeholder image
+        if let image = UIImage(named: "AppIcon") {
+            cell?.customImageView?.image = image
         }
 
-        return cell
+        if let subreddit = getSubreddit(forIndexPath: indexPath) {
+            cell?.displayCell(subreddit)
+        }
+
+        return cell!
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -178,6 +187,18 @@ extension SubredditsViewController: UITableViewDataSource, UITableViewDelegate {
         if let subreddit = getSubreddit(forIndexPath: indexPath) {
             showSubreddit(subreddit)
         }
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+
+        guard let cell = cell as? SubredditTableViewCell else {
+            return
+        }
+
+        cell.customImageView?.layer.cornerRadius = 10
+        cell.customImageView?.layer.masksToBounds = true
+        cell.customImageView?.clipsToBounds = true
+
     }
 }
 
