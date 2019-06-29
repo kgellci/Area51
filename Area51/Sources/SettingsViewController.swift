@@ -9,7 +9,8 @@ class SettingsViewController: UITableViewController {
             let changelogURL = "https://github.com/kgellci/Area51/blob/master/CHANGELOG.md"
             presentSafariViewController(with: changelogURL)
         case 1:
-            let contributorsURL = "https://github.com/kgellci/Area51/graphs/contributors"
+            print("case 1 placeholder")
+//            let _ = "https://github.com/kgellci/Area51/graphs/contributors"
 //            presentSafariViewController(with: contributorsURL)
         case 2:
             let githubURL = "https://github.com/kgellci/Area51"

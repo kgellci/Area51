@@ -10,5 +10,4 @@ import UIKit
 class ContributorCell: UITableViewCell {
     @IBOutlet var contributorName: UILabel!
     @IBOutlet var contributionsLabel: UILabel!
-    
 }
