@@ -13,8 +13,8 @@ class ContributionController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        DispatchQueue.main.async {
-            Contributor.getContributors { (res) in
+        Contributor.getContributors { (res) in
+            DispatchQueue.main.async {
                 switch res {
                 case .success(let contributors):
                     contributors.forEach({ (contributor) in
