@@ -9,8 +9,8 @@ class SettingsViewController: UITableViewController {
             let changelogURL = "https://github.com/kgellci/Area51/blob/master/CHANGELOG.md"
             presentSafariViewController(with: changelogURL)
         case 1:
-            let contributorsURL = "https://github.com/kgellci/Area51/graphs/contributors"
-            presentSafariViewController(with: contributorsURL)
+            let contributorController = ContributionController()
+            navigationController?.pushViewController(contributorController, animated: true)
         case 2:
             let githubURL = "https://github.com/kgellci/Area51"
             presentSafariViewController(with: githubURL)
