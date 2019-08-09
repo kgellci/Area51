@@ -17,6 +17,7 @@
 * [Add a search bar to search subreddits ](https://github.com/kgellci/Area51/pull/72)
 * [Add search subreddits from API functionality](https://github.com/kgellci/Area51/pull/90)
 * [Add community icons for subreddits](https://github.com/kgellci/Area51/pull/94)
+* [Adds a custom contribution View](https://github.com/kgellci/Area51/pull/97)
 
 
 #### Bug Fixes
