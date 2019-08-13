@@ -32,16 +32,15 @@ class ContributionController: UITableViewController {
         return listOfContributors.count
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
-    }
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ContributorCell = tableView.reusableCell(forIdentifier: ContributorCell.reuseIdentifier)
         let contributors = listOfContributors[indexPath.item]
 
         cell.contributorName.text = contributors.login ?? contributors.name
         cell.contributionsLabel.text = "\(contributors.contributions) Contributions"
+
+        cell.avatarImageView.isHidden = contributors.avatarURL == nil
+        cell.avatarImageView.url = contributors.avatarURL.flatMap(URL.init)
 
         return cell
     }

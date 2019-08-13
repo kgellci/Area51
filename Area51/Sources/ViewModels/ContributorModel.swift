@@ -5,6 +5,12 @@ struct Contributor: Decodable {
     var login: String?
     var name: String?
     var contributions: Int
+    var avatarURL: String?
+
+    enum CodingKeys: String, CodingKey {
+        case login, name, contributions
+        case avatarURL = "avatar_url"
+    }
 
     static func getContributors(completion: @escaping (Result<[Contributor], Error>) -> Void) {
         let request = "https://api.github.com/repos/kgellci/Area51/contributors?anon=1"
