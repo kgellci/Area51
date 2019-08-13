@@ -40,11 +40,8 @@ class ContributionController: UITableViewController {
         cell.contributionsLabel.text = "\(contributors.contributions) Contributions"
 
         cell.avatarImageView.isHidden = contributors.avatarURL == nil
-        if let avatarURL = URL(string: contributors.avatarURL ?? "") {
-            cell.avatarImageView.url = avatarURL
-        } else {
-            cell.avatarImageView.url = nil
-        }
+        cell.avatarImageView.url = contributors.avatarURL.flatMap(URL.init)
+
         return cell
     }
 }

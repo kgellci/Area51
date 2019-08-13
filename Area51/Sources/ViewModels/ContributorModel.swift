@@ -12,14 +12,6 @@ struct Contributor: Decodable {
         case avatarURL = "avatar_url"
     }
 
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        login = try? container.decode(String.self, forKey: .login)
-        name = try? container.decode(String.self, forKey: .name)
-        contributions = try container.decode(Int.self, forKey: .contributions)
-        avatarURL = try? container.decode(String.self, forKey: .avatarURL)
-    }
-
     static func getContributors(completion: @escaping (Result<[Contributor], Error>) -> Void) {
         let request = "https://api.github.com/repos/kgellci/Area51/contributors?anon=1"
         guard let url = URL(string: request) else { return }
